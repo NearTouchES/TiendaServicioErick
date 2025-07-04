@@ -24,13 +24,13 @@ echo "Descargando la imagen desde ECR..."
 docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG}
 
 # Detener el contenedor solo si existe
-if [ "$(docker ps -q -f name=tienda-virtual)" ]; then
-  docker stop tienda-virtual
+if [ "$(docker ps -q -f name=tienda-servicio)" ]; then
+  docker stop tienda-servicio
 fi
 
 # Eliminar el contenedor solo si existe
-if [ "$(docker ps -aq -f name=tienda-virtual)" ]; then
-  docker rm tienda-virtual
+if [ "$(docker ps -aq -f name=tienda-servicio)" ]; then
+  docker rm tienda-servicio
 fi
 
 echo "Iniciando nuevo contenedor..."

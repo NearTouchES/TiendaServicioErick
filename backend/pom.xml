@@ -8,11 +8,11 @@
 		<version>3.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>pe.com.tiendavirtual</groupId>
-	<artifactId>tiendavirtualapp</artifactId>
+	<groupId>pe.com.tiendaservicio</groupId>
+	<artifactId>tiendaservicioapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tiendavirtualapp</name>
-	<description>Demo project para una Tienda Virtual</description>
+	<name>tiendaservicioapp</name>
+	<description>Demo project para una Tienda Servicio</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 
 // Metadatos para SEO y descripción general
 export const metadata: Metadata = {
-  title: "Tienda Virtual",
-  description: "Aplicación de Tienda Virtual desarrollada para el curso de Lenguajes de Programación",
+  title: "Tienda Servicio",
+  description: "Aplicación de Tienda Servicio desarrollada para el curso de Lenguajes de Programación",
 };
 
 export default function RootLayout({

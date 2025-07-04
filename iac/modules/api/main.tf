@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_api" "http_api" {
-  name          = "tienda-virtual-api"
+  name          = "tienda-servicio-api"
   protocol_type = "HTTP"
 
   cors_configuration {
@@ -80,7 +80,7 @@ resource "aws_apigatewayv2_integration" "eventbridge_integration" {
   credentials_arn        = var.rol_lab_arn
 
   request_parameters = {
-    Source       = "pe.com.tiendavirtual"
+    Source       = "pe.com.tiendaservicio"
     DetailType   = "crear-orden"
     Detail       = "$request.body"
     EventBusName = var.event_bus_name
