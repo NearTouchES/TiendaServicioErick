@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "definicion_tarea_tienda_servicio" {
   task_role_arn            = var.rol_lab_arn
 
   container_definitions = jsonencode([{
-    name      = "tienda-servicio"
+    name      = "tiendaservicioerick"
     image     = "${var.id_cuenta_aws}.dkr.ecr.${var.region_aws}.amazonaws.com/${var.nombre_repo_ecr}:latest"
     essential = true
     portMappings = [{
