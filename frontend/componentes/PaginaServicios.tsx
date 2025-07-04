@@ -18,56 +18,60 @@ export default function PaginaServicios({
   setProductoSeleccionado,
 }: Props) {
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Lista de Servicios</h2>
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 flex justify-between items-center">
+        Servicios
         <button
           onClick={() => {
             setProductoSeleccionado(null);
             setMostrarModalProducto(true);
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
         >
           Nuevo Servicio
         </button>
-      </div>
+      </h1>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {productos.map((servicio) => (
-          <li
-            key={servicio.id}
-            className="p-4 border rounded shadow hover:shadow-md transition"
-          >
-            <h3 className="text-lg font-semibold">{servicio.nombre}</h3>
-            <p className="text-sm text-gray-600">{servicio.descripcion}</p>
-            <p className="font-bold mt-2">S/. {servicio.costo}</p>
+      {productos.length === 0 ? (
+        <p className="text-gray-600">No hay servicios disponibles.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {productos.map((servicio) => (
+            <div
+              key={servicio.id}
+              className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition"
+            >
+              <h3 className="text-xl font-semibold text-gray-800">{servicio.nombre}</h3>
+              <p className="text-sm text-gray-600 mt-1">{servicio.descripcion}</p>
+              <p className="text-lg font-bold text-green-600 mt-2">S/ {servicio.costo.toFixed(2)}</p>
 
-            <div className="mt-3 flex space-x-2">
-              <button
-                onClick={() => agregarAlCarrito(servicio)}
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-              >
-                Agregar al carrito
-              </button>
-              <button
-                onClick={() => {
-                  setProductoSeleccionado(servicio);
-                  setMostrarModalProducto(true);
-                }}
-                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-              >
-                Editar
-              </button>
-              <button
-                onClick={() => quitarProducto(servicio.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-              >
-                Eliminar
-              </button>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  onClick={() => agregarAlCarrito(servicio)}
+                  className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                >
+                  Agregar al carrito
+                </button>
+                <button
+                  onClick={() => {
+                    setProductoSeleccionado(servicio);
+                    setMostrarModalProducto(true);
+                  }}
+                  className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => quitarProducto(servicio.id)}
+                  className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                >
+                  Eliminar
+                </button>
+              </div>
             </div>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
