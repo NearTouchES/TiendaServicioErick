@@ -1,0 +1,53 @@
+# ------------------------
+# Java / Maven / Spring
+# ------------------------
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+# ------------------------
+# IDEs
+# ------------------------
+
+# VS Code
+.vscode/
+
+# Eclipse / Spring Tool Suite (STS)
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans/
+.sts4-cache/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Build artifacts
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ------------------------
+# Node.js / JavaScript
+# ------------------------
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
