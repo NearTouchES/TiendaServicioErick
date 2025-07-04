@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_event_bus" "ordenes_bus" {
-    name = "ordenes-bus"
+    name = "ordenes-bus-servicio"
 }
 
 resource "aws_cloudwatch_event_rule" "crear_orden" {
