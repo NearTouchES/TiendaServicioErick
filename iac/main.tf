@@ -8,10 +8,10 @@ provider "aws" {
 }
 
 module "serverless" {
-  source              = "./modules/serverless"
-  rol_lambda_arn      = var.rol_lab_arn
-  url_base_servicio   = "http://${module.compute.load_balancer_url}/api"
-  crear_orden_path    = "${path.root}/../serverless/tiendaServicio/packages/funciones/crear-orden/build"
+  source = "./modules/serverless"
+  rol_lambda_arn = var.rol_lab_arn
+  url_base_servicio = "http://${module.compute.load_balancer_url}/api"
+  crear_orden_path = "${path.root}/../serverless/tiendaServicio/packages/funciones/crear-orden/build"
 }
 
 module "compute" {
