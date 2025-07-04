@@ -14,46 +14,46 @@ export default function PaginaEmpleado({
   setEmpleadoSeleccionado,
 }: Props) {
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800 flex justify-between items-center">
-        Empleados
+    <div className="p-8 bg-white rounded-2xl shadow-lg max-w-6xl mx-auto mt-10">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-extrabold text-gray-800">Gestión de Empleados</h1>
         <button
           onClick={() => {
             setEmpleadoSeleccionado(null);
             setMostrarModalEmpleado(true);
           }}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
+          className="px-5 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
         >
           Nuevo Empleado
         </button>
-      </h1>
+      </div>
 
       {empleados.length === 0 ? (
-        <p className="text-gray-600">No hay empleados registrados.</p>
+        <p className="text-gray-600 text-center">No hay empleados registrados.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-lg overflow-hidden">
-            <thead className="bg-gray-100 border-b border-gray-200">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-100 border-b">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombres</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellidos</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Puesto</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                <th className="px-6 py-3 font-semibold uppercase tracking-wide">Nombres</th>
+                <th className="px-6 py-3 font-semibold uppercase tracking-wide">Apellidos</th>
+                <th className="px-6 py-3 font-semibold uppercase tracking-wide">Puesto</th>
+                <th className="px-6 py-3 font-semibold uppercase tracking-wide text-center">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {empleados.map((empleado) => (
                 <tr key={empleado.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{empleado.persona?.nombres}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{empleado.persona?.apellidos}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{empleado.puesto}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <td className="px-6 py-4 whitespace-nowrap">{empleado.persona?.nombres}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{empleado.persona?.apellidos}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{empleado.puesto}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">
                     <button
                       onClick={() => {
                         setEmpleadoSeleccionado(empleado);
                         setMostrarModalEmpleado(true);
                       }}
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="px-4 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
                     >
                       Editar
                     </button>
