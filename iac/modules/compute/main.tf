@@ -139,10 +139,12 @@ resource "aws_ecs_service" "servicio_tiendaservicio" {
   }
 
   depends_on = [
+    aws_ecs_cluster.cluster_tiendaservicio,
     aws_ecs_task_definition.definicion_tarea_tiendaservicio,
     aws_lb_listener.http_listener
   ]
 }
+
 
 # Autoescalamiento
 resource "aws_appautoscaling_target" "objetivo_escalamiento_tiendaservicio" {
