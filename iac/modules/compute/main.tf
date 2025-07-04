@@ -5,11 +5,11 @@ resource "aws_ecs_cluster" "cluster_tienda_servicio" {
 resource "aws_ecs_task_definition" "definicion_tarea_tienda_servicio" {
   family                   = var.familia_tarea
   requires_compatibilities = ["FARGATE"]
-  network_mode            = "awsvpc"
-  cpu                     = "1024"
-  memory                  = "3072"
-  execution_role_arn      = var.rol_lab_arn
-  task_role_arn           = var.rol_lab_arn
+  network_mode             = "awsvpc"
+  cpu                      = "1024"
+  memory                   = "3072"
+  execution_role_arn       = var.rol_lab_arn
+  task_role_arn            = var.rol_lab_arn
 
   container_definitions = jsonencode([{
     name      = "tienda-servicio"
@@ -50,6 +50,11 @@ resource "aws_ecs_task_definition" "definicion_tarea_tienda_servicio" {
 resource "aws_cloudwatch_log_group" "ecs_logs" {
   name              = "/ecs/${var.nombre_servicio_ecs}"
   retention_in_days = 7
+
+  lifecycle {
+    prevent_destroy = false
+    ignore_changes  = [name]
+  }
 }
 
 data "aws_vpc" "vpc_por_defecto" {
