@@ -37,13 +37,14 @@ resource "aws_ecs_task_definition" "definicion_tarea_tienda_servicio" {
       }
     ]
     logConfiguration = {
-      logDriver = "awslogs"
-      options = {
-        awslogs-group         = "/ecs/${var.nombre_servicio_ecs}"
-        awslogs-region        = var.region_aws
-        awslogs-stream-prefix = "ecs"
-      }
+        logDriver = "awslogs"
+        options = {
+            awslogs-group         = "/ecs/tienda-servicio-v2"
+            awslogs-region        = var.region_aws
+            awslogs-stream-prefix = "ecs"
     }
+    }
+
   }])
 }
 
