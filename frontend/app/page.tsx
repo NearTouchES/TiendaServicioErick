@@ -133,34 +133,46 @@ export default function Home() {
 
         {paginaActual === "clientes" && (
           <>
-            <PaginaCliente
-              clientes={clientes}
-              setMostrarModalCliente={setMostrarModalCliente}
-              setClienteSeleccionado={setClienteSeleccionado}
-            />
-            {mostrarModalCliente && (
-              <ModalCliente
-                cliente={clienteSeleccionado}
-                cerrar={() => setMostrarModalCliente(false)}
-                grabar={grabarClienteModal}
-              />
+            {cargandoClientes ? (
+              <p className="text-center text-gray-500">Cargando clientes...</p>
+            ) : (
+              <>
+                <PaginaCliente
+                  clientes={clientes}
+                  setMostrarModalCliente={setMostrarModalCliente}
+                  setClienteSeleccionado={setClienteSeleccionado}
+                />
+                {mostrarModalCliente && (
+                  <ModalCliente
+                    cliente={clienteSeleccionado}
+                    cerrar={() => setMostrarModalCliente(false)}
+                    grabar={grabarClienteModal}
+                  />
+                )}
+              </>
             )}
           </>
         )}
 
         {paginaActual === "empleados" && (
           <>
-            <PaginaEmpleado
-              empleados={empleados}
-              setMostrarModalEmpleado={setMostrarModalEmpleado}
-              setEmpleadoSeleccionado={setEmpleadoSeleccionado}
-            />
-            {mostrarModalEmpleado && (
-              <ModalEmpleado
-                empleado={empleadoSeleccionado}
-                cerrar={() => setMostrarModalEmpleado(false)}
-                grabar={grabarEmpleadoModal}
-              />
+            {cargandoEmpleados ? (
+              <p className="text-center text-gray-500">Cargando empleados...</p>
+            ) : (
+              <>
+                <PaginaEmpleado
+                  empleados={empleados}
+                  setMostrarModalEmpleado={setMostrarModalEmpleado}
+                  setEmpleadoSeleccionado={setEmpleadoSeleccionado}
+                />
+                {mostrarModalEmpleado && (
+                  <ModalEmpleado
+                    empleado={empleadoSeleccionado}
+                    cerrar={() => setMostrarModalEmpleado(false)}
+                    grabar={grabarEmpleadoModal}
+                  />
+                )}
+              </>
             )}
           </>
         )}
