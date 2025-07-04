@@ -1,8 +1,21 @@
-resource "aws_ecs_cluster" "cluster_tienda_servicio" {
+# ECS Cluster
+resource "aws_ecs_cluster" "cluster_tiendaservicio" {
   name = var.nombre_cluster
 }
 
-resource "aws_ecs_task_definition" "definicion_tarea_tienda_servicio" {
+# Log Group
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name              = "/ecs/${var.nombre_servicio_ecs}"
+  retention_in_days = 7
+
+  lifecycle {
+    prevent_destroy = false
+    ignore_changes  = [name]
+  }
+}
+
+# Definición de Tarea para tiendaservicio
+resource "aws_ecs_task_definition" "definicion_tarea_tiendaservicio" {
   family                   = var.familia_tarea
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -37,28 +50,17 @@ resource "aws_ecs_task_definition" "definicion_tarea_tienda_servicio" {
       }
     ]
     logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-            awslogs-group         = "/ecs/${var.nombre_servicio_ecs}"
-            awslogs-region        = var.region_aws
-            awslogs-stream-prefix = "ecs"
-        }
+      logDriver = "awslogs"
+      options = {
+        awslogs-group         = "/ecs/${var.nombre_servicio_ecs}"
+        awslogs-region        = var.region_aws
+        awslogs-stream-prefix = "ecs"
+      }
     }
-
-
   }])
 }
 
-resource "aws_cloudwatch_log_group" "ecs_logs" {
-  name              = "/ecs/${var.nombre_servicio_ecs}"
-  retention_in_days = 7
-
-  lifecycle {
-    prevent_destroy = false
-    ignore_changes  = [name]
-  }
-}
-
+# Networking
 data "aws_vpc" "vpc_por_defecto" {
   default = true
 }
@@ -75,70 +77,17 @@ data "aws_security_group" "grupo_seguridad_por_defecto" {
   vpc_id = data.aws_vpc.vpc_por_defecto.id
 }
 
-resource "aws_ecs_service" "servicio_tienda_servicio" {
-  name            = var.nombre_servicio_ecs
-  cluster         = aws_ecs_cluster.cluster_tienda_servicio.id
-  task_definition = aws_ecs_task_definition.definicion_tarea_tienda_servicio.arn
-  desired_count   = 1
-  launch_type     = "FARGATE"
-
-  load_balancer {
-    target_group_arn = aws_lb_target_group.tg_tienda_servicio.arn
-    container_name   = var.nombre_repo_ecr
-    container_port   = 8080
-  }
-
-  network_configuration {
-    subnets          = data.aws_subnets.sub_redes_por_defecto.ids
-    security_groups  = [data.aws_security_group.grupo_seguridad_por_defecto.id]
-    assign_public_ip = true
-  }
-
-  deployment_controller {
-    type = "ECS"
-  }
-
-  depends_on = [
-    aws_ecs_task_definition.definicion_tarea_tienda_servicio,
-    aws_lb_listener.http_listener
-  ]
-}
-
-resource "aws_appautoscaling_target" "objetivo_escalamiento_ecs" {
-  service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.cluster_tienda_servicio.name}/${aws_ecs_service.servicio_tienda_servicio.name}"
-  scalable_dimension = "ecs:service:DesiredCount"
-  min_capacity       = 1
-  max_capacity       = 4
-}
-
-resource "aws_appautoscaling_policy" "politica_de_autoescalamiento_ecs" {
-  name               = "cpu-utilization-scaling"
-  service_namespace  = "ecs"
-  resource_id        = aws_appautoscaling_target.objetivo_escalamiento_ecs.resource_id
-  scalable_dimension = aws_appautoscaling_target.objetivo_escalamiento_ecs.scalable_dimension
-  policy_type        = "TargetTrackingScaling"
-
-  target_tracking_scaling_policy_configuration {
-    target_value = 75.0
-    predefined_metric_specification {
-      predefined_metric_type = "ECSServiceAverageCPUUtilization"
-    }
-    scale_in_cooldown  = 60
-    scale_out_cooldown = 60
-  }
-}
-
-resource "aws_lb" "tienda_servicio_load_balancer" {
-  name               = "tienda-servicio-alb"
+# Load Balancer
+resource "aws_lb" "tiendaservicio_load_balancer" {
+  name               = "tiendaservicio-alb"
   internal           = false
   load_balancer_type = "application"
   subnets            = data.aws_subnets.sub_redes_por_defecto.ids
   security_groups    = [data.aws_security_group.grupo_seguridad_por_defecto.id]
 }
 
-resource "aws_lb_target_group" "tg_tienda_servicio" {
-  name        = "tg-tienda-servicio"
+resource "aws_lb_target_group" "tg_tiendaservicio" {
+  name        = "tg-tiendaservicio"
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.vpc_por_defecto.id
@@ -155,12 +104,68 @@ resource "aws_lb_target_group" "tg_tienda_servicio" {
 }
 
 resource "aws_lb_listener" "http_listener" {
-  load_balancer_arn = aws_lb.tienda_servicio_load_balancer.arn
+  load_balancer_arn = aws_lb.tiendaservicio_load_balancer.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.tg_tienda_servicio.arn
+    target_group_arn = aws_lb_target_group.tg_tiendaservicio.arn
+  }
+}
+
+# Servicio ECS
+resource "aws_ecs_service" "servicio_tiendaservicio" {
+  name            = var.nombre_servicio_ecs
+  cluster         = aws_ecs_cluster.cluster_tiendaservicio.id
+  task_definition = aws_ecs_task_definition.definicion_tarea_tiendaservicio.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg_tiendaservicio.arn
+    container_name   = var.nombre_repo_ecr
+    container_port   = 8080
+  }
+
+  network_configuration {
+    subnets          = data.aws_subnets.sub_redes_por_defecto.ids
+    security_groups  = [data.aws_security_group.grupo_seguridad_por_defecto.id]
+    assign_public_ip = true
+  }
+
+  deployment_controller {
+    type = "ECS"
+  }
+
+  depends_on = [
+    aws_ecs_task_definition.definicion_tarea_tiendaservicio,
+    aws_lb_listener.http_listener
+  ]
+}
+
+# Autoescalamiento
+resource "aws_appautoscaling_target" "objetivo_escalamiento_tiendaservicio" {
+  service_namespace  = "ecs"
+  resource_id        = "service/${aws_ecs_cluster.cluster_tiendaservicio.name}/${aws_ecs_service.servicio_tiendaservicio.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  min_capacity       = 1
+  max_capacity       = 4
+}
+
+resource "aws_appautoscaling_policy" "politica_autoescalamiento_tiendaservicio" {
+  name               = "cpu-utilization-scaling"
+  service_namespace  = "ecs"
+  resource_id        = aws_appautoscaling_target.objetivo_escalamiento_tiendaservicio.resource_id
+  scalable_dimension = aws_appautoscaling_target.objetivo_escalamiento_tiendaservicio.scalable_dimension
+  policy_type        = "TargetTrackingScaling"
+
+  target_tracking_scaling_policy_configuration {
+    target_value = 75.0
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+    scale_in_cooldown  = 60
+    scale_out_cooldown = 60
   }
 }
