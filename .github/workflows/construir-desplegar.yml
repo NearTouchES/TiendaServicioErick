@@ -95,6 +95,10 @@ jobs:
       - name: Instalar Vercel CLI
         run: npm install -g vercel
 
+      - name: Linkear Proyecto Vercel
+        run: vercel link --project tienda-servicio-erick --token ${{ secrets.VERCEL_TOKEN }} --yes
+        working-directory: frontend
+
       - name: Desplegar en Vercel
         run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --yes
         working-directory: frontend
