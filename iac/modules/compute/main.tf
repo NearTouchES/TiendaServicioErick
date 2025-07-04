@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "definicion_tarea_tienda_servicio" {
   task_role_arn            = var.rol_lab_arn
 
   container_definitions = jsonencode([{
-    name      = "tiendaservicioerick"
+    name      = var.nombre_repo_ecr
     image     = "${var.id_cuenta_aws}.dkr.ecr.${var.region_aws}.amazonaws.com/${var.nombre_repo_ecr}:latest"
     essential = true
     portMappings = [{
@@ -84,7 +84,7 @@ resource "aws_ecs_service" "servicio_tienda_servicio" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.tg_tienda_servicio.arn
-    container_name   = "tienda-servicio"
+    container_name   = var.nombre_repo_ecr
     container_port   = 8080
   }
 
