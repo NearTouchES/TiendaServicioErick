@@ -160,19 +160,19 @@ resource "aws_apigatewayv2_stage" "default_stage" {
 resource "aws_apigatewayv2_route" "administradores_get" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /administradores"
-  target    = "integrations/${aws_apigatewayv2_integration.administradores_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.administradores_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "administradores_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /administradores"
-  target    = "integrations/${aws_apigatewayv2_integration.administradores_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.administradores_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "administradores_get_by_id" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /administradores/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.administradores_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.administradores_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "administradores_put" {
@@ -184,7 +184,7 @@ resource "aws_apigatewayv2_route" "administradores_put" {
 resource "aws_apigatewayv2_route" "administradores_delete" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /administradores/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.administradores_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.administradores_integration.id}"
 }
 #########################################
 # Routes - Clientes
@@ -198,25 +198,25 @@ resource "aws_apigatewayv2_route" "clientes_get_all" {
 resource "aws_apigatewayv2_route" "clientes_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /clientes/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "clientes_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /clientes"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "clientes_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /clientes/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "clientes_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /clientes/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration.id}"
 }
 
 #########################################
@@ -232,25 +232,25 @@ resource "aws_apigatewayv2_route" "servicios_get_all" {
 resource "aws_apigatewayv2_route" "servicios_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /servicios/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.servicios_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.servicios_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "servicios_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /servicios"
-  target    = "integrations/${aws_apigatewayv2_integration.servicios_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.servicios_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "servicios_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /servicios/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.servicios_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.servicios_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "servicios_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /servicios/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.servicios_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.servicios_integration.id}"
 }
 
 #########################################
@@ -265,25 +265,25 @@ resource "aws_apigatewayv2_route" "ventas_get_all" {
 resource "aws_apigatewayv2_route" "ventas_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /ventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.ventas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.ventas_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "ventas_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /ventas"
-  target    = "integrations/${aws_apigatewayv2_integration.ventas_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.ventas_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "ventas_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /ventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.ventas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.ventas_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "ventas_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /ventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.ventas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.ventas_integration.id}"
 }
 #########################################
 # Routes - empleados
@@ -297,25 +297,25 @@ resource "aws_apigatewayv2_route" "empleados_get_all" {
 resource "aws_apigatewayv2_route" "empleados_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /empleados/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.empleados_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.empleados_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "empleados_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /empleados"
-  target    = "integrations/${aws_apigatewayv2_integration.empleados_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.empleados_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "empleados_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /empleados/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.empleados_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.empleados_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "empleados_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /empleados/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.empleados_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.empleados_integration.id}"
 }
 #########################################
 # Routes - itemventas
@@ -329,25 +329,25 @@ resource "aws_apigatewayv2_route" "itemventas_get_all" {
 resource "aws_apigatewayv2_route" "itemventas_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /itemventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.itemventas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.itemventas_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "itemventas_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /itemventas"
-  target    = "integrations/${aws_apigatewayv2_integration.itemventas_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.itemventas_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "itemventas_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /itemventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.itemventas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.itemventas_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "itemventas_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /itemventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.itemventas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.itemventas_integration.id}"
 }
 
 #########################################
@@ -362,23 +362,23 @@ resource "aws_apigatewayv2_route" "personas_get_all" {
 resource "aws_apigatewayv2_route" "personas_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /personas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.personas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.personas_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "personas_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /personas"
-  target    = "integrations/${aws_apigatewayv2_integration.personas_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.personas_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "personas_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /personas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.personas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.personas_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "personas_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /personas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.personas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.personas_integration.id}"
 }
