@@ -20,7 +20,7 @@ resource "aws_apigatewayv2_integration" "administradores_integration_get_all" {
 resource "aws_apigatewayv2_integration" "administradores_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
-  integration_uri        = "http://${var.load_balancer_url}//api/administradores/{proxy}"
+  integration_uri        = "http://${var.load_balancer_url}/api/administradores/{proxy}"
   integration_method     = "ANY"
   payload_format_version = "1.0"
 }
