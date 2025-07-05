@@ -154,14 +154,6 @@ resource "aws_apigatewayv2_stage" "default_stage" {
   }
 }
 
-resource "aws_apigatewayv2_route" "routes" {
-  for_each = toset(local.entidades)
-
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "ANY /${each.key}/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.http_proxy[each.key].id}"
-}
-
 #########################################
 # Routes - administradores
 #########################################
