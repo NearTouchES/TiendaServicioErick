@@ -1,16 +1,16 @@
 import { Servicio } from "@/modelo/servicio";
 
 // Usa la variable de entorno si existe, o la URL del ALB directamente como fallback
-const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL || "http://tienda-servicio-alb-1464369660.us-east-1.elb.amazonaws.com"}/api/servicios`;
+const BASE_URL = "/api/servicios";
 
 export async function getServicios(): Promise<Servicio[]> {
-  const res = await fetch(BASE_URL);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios`);
   if (!res.ok) throw new Error("Error al obtener servicios");
   return res.json();
 }
 
 export async function crearServicio(servicio: Omit<Servicio, "id">): Promise<Servicio> {
-  const res = await fetch(BASE_URL, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(servicio),
@@ -20,7 +20,7 @@ export async function crearServicio(servicio: Omit<Servicio, "id">): Promise<Ser
 }
 
 export async function actualizarServicio(servicio: Servicio): Promise<Servicio> {
-  const res = await fetch(`${BASE_URL}/${servicio.id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios/${servicio.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(servicio),
@@ -30,6 +30,6 @@ export async function actualizarServicio(servicio: Servicio): Promise<Servicio> 
 }
 
 export async function eliminarServicio(id: number): Promise<void> {
-  const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios/${id}`);
   if (!res.ok) throw new Error("Error al eliminar servicio");
 }

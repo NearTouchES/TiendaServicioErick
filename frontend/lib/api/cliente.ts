@@ -3,12 +3,12 @@ import { Cliente } from "@/modelo/cliente";
 const BASE_URL = "/api/clientes";
 
 export async function getClientes(): Promise<Cliente[]> {
-  const res = await fetch(BASE_URL);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/clientes`);
   return res.json();
 }
 
 export async function crearCliente(cliente: Omit<Cliente, "id">): Promise<Cliente> {
-  const res = await fetch(BASE_URL, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/clientes`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(cliente),
@@ -17,7 +17,7 @@ export async function crearCliente(cliente: Omit<Cliente, "id">): Promise<Client
 }
 
 export async function actualizarCliente(cliente: Cliente): Promise<Cliente> {
-  const res = await fetch(`${BASE_URL}/${cliente.id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/clientes/${cliente.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(cliente),
@@ -26,5 +26,5 @@ export async function actualizarCliente(cliente: Cliente): Promise<Cliente> {
 }
 
 export async function eliminarCliente(id: number): Promise<void> {
-  await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+  await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/clientes/${id}`, { method: "DELETE" });
 }
