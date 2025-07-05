@@ -1,7 +1,6 @@
 import { Servicio } from "@/modelo/servicio";
 
-// Usa la variable de entorno si existe, o la URL del ALB directamente como fallback
-const BASE_URL = "/api/servicios";
+const BASE_URL = process.env.API_URL;
 
 export async function getServicios(): Promise<Servicio[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios`);

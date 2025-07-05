@@ -1,6 +1,6 @@
 import { ItemVenta } from "@/modelo/itemventas";
 
-const BASE_URL = "/api/itemventas";
+const BASE_URL = process.env.API_URL;
 
 export async function getItemVentas(): Promise<ItemVenta[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/itemventas`);
