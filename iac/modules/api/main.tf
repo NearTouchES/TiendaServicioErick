@@ -57,7 +57,7 @@ resource "aws_apigatewayv2_integration" "servicios_integration" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "ventas_integration_integration_get_all" {
+resource "aws_apigatewayv2_integration" "ventas_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/ventas"
@@ -73,7 +73,7 @@ resource "aws_apigatewayv2_integration" "ventas_integration" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "empleados_integration_integration_get_all" {
+resource "aws_apigatewayv2_integration" "empleados_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/empleados"
@@ -89,7 +89,7 @@ resource "aws_apigatewayv2_integration" "empleados_integration" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "itemventas_integration_integration_get_all" {
+resource "aws_apigatewayv2_integration" "itemventas_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/itemventas"
@@ -105,7 +105,7 @@ resource "aws_apigatewayv2_integration" "itemventas_integration" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "personas_integration_integration_get_all" {
+resource "aws_apigatewayv2_integration" "personas_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/personas"
