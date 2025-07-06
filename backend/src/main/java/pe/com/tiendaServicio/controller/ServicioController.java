@@ -46,7 +46,7 @@ public class ServicioController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         servicioService.eliminar(id);
