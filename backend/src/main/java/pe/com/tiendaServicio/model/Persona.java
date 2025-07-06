@@ -1,5 +1,6 @@
 package pe.com.tiendaServicio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -35,13 +36,15 @@ public class Persona {
     private String nacionalidad;
 
     // Relaciones con otras entidades
-
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("persona")
     private List<Empleado> empleados;
 
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("persona")
     private List<Administrador> administradores;
 
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("persona")
     private List<Cliente> clientes;
 }

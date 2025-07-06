@@ -1,5 +1,6 @@
 package pe.com.tiendaServicio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ public class Administrador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // ¡En la BD es 'id'!
+    @Column(name = "id") // nombre real en la BD
     private Integer idAdministrador;
 
     @Column(name = "salario", nullable = false, precision = 10, scale = 2)
@@ -22,6 +23,7 @@ public class Administrador {
     private String correoInstitucional;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona", nullable = false) // este es el nombre real en la BD
+    @JoinColumn(name = "id_persona", nullable = false)
+    @JsonIgnoreProperties({"empleados", "clientes", "administradores"})
     private Persona persona;
 }

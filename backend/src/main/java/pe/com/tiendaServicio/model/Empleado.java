@@ -1,5 +1,6 @@
 package pe.com.tiendaServicio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -35,6 +36,7 @@ public class Empleado {
     private Date fechaFinEmpleado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona", nullable = false) // nombre real en la BD
+    @JoinColumn(name = "id_persona", nullable = false)
+    @JsonIgnoreProperties({"empleados", "clientes", "administradores"})
     private Persona persona;
 }
