@@ -11,6 +11,7 @@ import lombok.Data;
 public class Servicios {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idServicio;
 
     @Column(length = 45)
