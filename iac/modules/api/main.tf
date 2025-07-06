@@ -128,7 +128,7 @@ resource "aws_apigatewayv2_integration" "eventbridge_integration" {
   credentials_arn        = var.rol_lab_arn
 
   request_parameters = {
-    Source       = "pe.com.tiendaservicio"
+    Source       = "pe.com.tiendaServicio"
     DetailType   = "crear-orden"
     Detail       = "$request.body"
     EventBusName = var.event_bus_name

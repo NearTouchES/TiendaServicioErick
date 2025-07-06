@@ -14,7 +14,7 @@ resource "aws_cloudwatch_log_group" "ecs_logs" {
   }
 }
 
-# Definición de Tarea para tiendaservicio
+# Definición de Tarea para tiendaServicio
 resource "aws_ecs_task_definition" "definicion_tarea_tiendaservicio" {
   family                   = var.familia_tarea
   requires_compatibilities = ["FARGATE"]
