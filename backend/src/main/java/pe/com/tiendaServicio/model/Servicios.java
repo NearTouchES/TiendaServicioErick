@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Servicio")
+@Access(AccessType.FIELD)
 @Data
 public class Servicios {
 

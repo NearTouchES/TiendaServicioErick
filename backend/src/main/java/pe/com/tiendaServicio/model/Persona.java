@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Persona")
+@Access(AccessType.FIELD)
 @Data
 public class Persona {
 

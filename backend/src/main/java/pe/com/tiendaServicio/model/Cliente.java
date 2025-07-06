@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "Cliente")
+@Access(AccessType.FIELD)
 @Data
 public class Cliente {
 

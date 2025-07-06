@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Empleado")
+@Access(AccessType.FIELD)
 @Data
 public class Empleado {
 

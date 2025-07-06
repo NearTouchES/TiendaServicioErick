@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Administrador")
+@Access(AccessType.FIELD)
 @Data
 public class Administrador {
 

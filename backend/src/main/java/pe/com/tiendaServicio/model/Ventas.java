@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Venta")
+@Access(AccessType.FIELD)
 @Data
 public class Ventas {
 

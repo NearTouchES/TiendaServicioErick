@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "ItemVenta")
+@Access(AccessType.FIELD)
 @Data
 public class ItemVentas {
 
