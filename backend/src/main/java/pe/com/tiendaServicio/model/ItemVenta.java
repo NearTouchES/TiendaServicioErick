@@ -30,11 +30,11 @@ public class ItemVenta {
     private BigDecimal subtotal;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idVenta", nullable = false)
+    @JoinColumn(name = "idVenta", referencedColumnName = "idVenta", nullable = false)
     @JsonBackReference("venta-items")
     private Venta venta;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idServicio", nullable = false)
+    @JoinColumn(name = "idServicio", referencedColumnName = "idServicio", nullable = false)
     private Servicio servicio;
 }

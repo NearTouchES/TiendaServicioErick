@@ -24,11 +24,11 @@ public class Venta {
     private Date fechaVenta;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idEmpleado", nullable = false)
+    @JoinColumn(name = "idEmpleado", referencedColumnName = "idEmpleado", nullable = false)
     private Empleado empleado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idCliente", nullable = false)
+    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente", nullable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

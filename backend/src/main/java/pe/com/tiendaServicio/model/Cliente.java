@@ -19,7 +19,7 @@ public class Cliente {
     private String tipoCliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPersona", nullable = false) // <-- nombre real en la BD
+    @JoinColumn(name = "idPersona", referencedColumnName = "idPersona", nullable = false)
     @JsonIgnoreProperties({"clientes", "empleados", "administradores"}) // rompe ciclos
     private Persona persona;
 }

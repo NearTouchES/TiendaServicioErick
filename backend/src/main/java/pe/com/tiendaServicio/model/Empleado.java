@@ -36,7 +36,7 @@ public class Empleado {
     private Date fechaFinEmpleado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPersona", nullable = false)
+    @JoinColumn(name = "idPersona", referencedColumnName = "idPersona", nullable = false)
     @JsonIgnoreProperties({"empleados", "clientes", "administradores"})
     private Persona persona;
 }
