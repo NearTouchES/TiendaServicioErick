@@ -1,12 +1,10 @@
 import { Persona } from "@/modelo/persona";
 
-const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
-
-if (!baseUrl) {
-  throw new Error("La URL base de la API no está definida");
-}
-
 export async function getPersonas(): Promise<Persona[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) {
+    throw new Error("La URL base de la API no está definida");
+  }
   const response = await fetch(`${baseUrl}/personas`);
   if (!response.ok) {
     throw new Error(`Error al obtener personas: ${response.status} ${response.statusText}`);
@@ -15,6 +13,11 @@ export async function getPersonas(): Promise<Persona[]> {
 }
 
 export async function agregarPersona(persona: Omit<Persona, 'id'>): Promise<Persona> {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) {
+    throw new Error("La URL base de la API no está definida");
+  }
+
   const response = await fetch(`${baseUrl}/personas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -29,6 +32,11 @@ export async function agregarPersona(persona: Omit<Persona, 'id'>): Promise<Pers
 }
 
 export async function actualizarPersona(personaActualizada: Persona): Promise<Persona> {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) {
+    throw new Error("La URL base de la API no está definida");
+  }
+
   const response = await fetch(`${baseUrl}/personas/${personaActualizada.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -43,6 +51,11 @@ export async function actualizarPersona(personaActualizada: Persona): Promise<Pe
 }
 
 export async function eliminarPersona(id: number): Promise<void> {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) {
+    throw new Error("La URL base de la API no está definida");
+  }
+
   const response = await fetch(`${baseUrl}/personas/${id}`, {
     method: "DELETE",
   });

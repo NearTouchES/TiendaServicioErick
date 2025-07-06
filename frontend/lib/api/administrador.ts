@@ -1,12 +1,11 @@
 import { Administrador } from "@/modelo/administrador";
 
-const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
-
-if (!baseUrl) {
-  throw new Error("La URL base de la API no está definida");
-}
-
 export async function getAdministradores(): Promise<Administrador[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) {
+    throw new Error("La URL base de la API no está definida");
+  }
+
   const response = await fetch(`${baseUrl}/administradores`);
   if (!response.ok) {
     throw new Error(`Error al obtener administradores: ${response.status} ${response.statusText}`);
@@ -15,6 +14,11 @@ export async function getAdministradores(): Promise<Administrador[]> {
 }
 
 export async function agregarAdministrador(admin: Omit<Administrador, "id">): Promise<Administrador> {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) {
+    throw new Error("La URL base de la API no está definida");
+  }
+
   const response = await fetch(`${baseUrl}/administradores`, {
     method: "POST",
     headers: {
@@ -31,6 +35,11 @@ export async function agregarAdministrador(admin: Omit<Administrador, "id">): Pr
 }
 
 export async function actualizarAdministrador(admin: Administrador): Promise<Administrador> {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) {
+    throw new Error("La URL base de la API no está definida");
+  }
+
   const response = await fetch(`${baseUrl}/administradores/${admin.id}`, {
     method: "PUT",
     headers: {
@@ -47,6 +56,11 @@ export async function actualizarAdministrador(admin: Administrador): Promise<Adm
 }
 
 export async function eliminarAdministrador(id: number): Promise<void> {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) {
+    throw new Error("La URL base de la API no está definida");
+  }
+
   const response = await fetch(`${baseUrl}/administradores/${id}`, {
     method: "DELETE"
   });

@@ -1,12 +1,13 @@
 import { Venta } from "@/modelo/ventas";
 
-const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
-
-if (!baseUrl) {
-  throw new Error("La URL base de la API no está definida");
+function obtenerBaseUrl(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+  if (!baseUrl) throw new Error("La URL base de la API no está definida");
+  return baseUrl;
 }
 
 export async function getVentas(): Promise<Venta[]> {
+  const baseUrl = obtenerBaseUrl();
   const response = await fetch(`${baseUrl}/ventas`);
   if (!response.ok) {
     throw new Error(`Error al obtener ventas: ${response.status} ${response.statusText}`);
@@ -15,6 +16,7 @@ export async function getVentas(): Promise<Venta[]> {
 }
 
 export async function crearVenta(venta: Omit<Venta, "id">): Promise<Venta> {
+  const baseUrl = obtenerBaseUrl();
   const response = await fetch(`${baseUrl}/ventas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -29,6 +31,7 @@ export async function crearVenta(venta: Omit<Venta, "id">): Promise<Venta> {
 }
 
 export async function actualizarVenta(venta: Venta): Promise<Venta> {
+  const baseUrl = obtenerBaseUrl();
   const response = await fetch(`${baseUrl}/ventas/${venta.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -43,6 +46,7 @@ export async function actualizarVenta(venta: Venta): Promise<Venta> {
 }
 
 export async function eliminarVenta(id: number): Promise<void> {
+  const baseUrl = obtenerBaseUrl();
   const response = await fetch(`${baseUrl}/ventas/${id}`, {
     method: "DELETE",
   });
