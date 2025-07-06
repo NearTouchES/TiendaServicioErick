@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/administradores")
+@RequestMapping("/administradores")
 @CrossOrigin(origins = "*") // opcional si tu frontend está separado
 public class AdministradorController {
 
