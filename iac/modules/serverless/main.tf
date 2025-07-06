@@ -1,6 +1,6 @@
 data "archive_file" "archivo_crear_orden_lambda" {
   type        = "zip"
-  source_dir  = "${path.root}/../serverless/tiendaServicio/packages/funciones/crear-orden/build"
+  source_dir  = "${path.root}/../serverless/tiendaservicio/packages/funciones/crear-orden/build"
   output_path = "${path.root}/data/crear_orden_lambda.zip"
 }
 
