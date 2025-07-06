@@ -11,7 +11,7 @@ export async function getServicios(): Promise<Servicio[]> {
   return await response.json();
 }
 
-export async function crearServicio(servicio: Omit<Servicio, "id">): Promise<Servicio> {
+export async function crearServicio(servicio: Omit<Servicio, "idServicio">): Promise<Servicio> {
   const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
   if (!baseUrl) throw new Error("La URL base de la API no está definida");
 
@@ -32,7 +32,7 @@ export async function actualizarServicio(servicio: Servicio): Promise<Servicio> 
   const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
   if (!baseUrl) throw new Error("La URL base de la API no está definida");
 
-  const response = await fetch(`${baseUrl}/servicios/${servicio.id}`, {
+  const response = await fetch(`${baseUrl}/servicios/${servicio.idServicio}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(servicio),

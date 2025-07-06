@@ -12,6 +12,8 @@ import {
 
 export function usePersonas() {
   const [personas, setPersonas] = useState<Persona[]>([]);
+  const [personaSeleccionada, setPersonaSeleccionada] = useState<Persona | null>(null);
+  const [mostrarModalPersona, setMostrarModalPersona] = useState(false);
   const [cargando, setCargando] = useState<boolean>(false);
   const { mostrarMensaje } = useMensaje();
 
@@ -35,24 +37,24 @@ export function usePersonas() {
   const guardarPersona = async (persona: Persona | Omit<Persona, "id">) => {
     setCargando(true);
     const esNueva = !("id" in persona);
-
     try {
       const personaGuardada = esNueva
         ? await agregarPersona(persona)
         : await actualizarPersona(persona as Persona);
 
-      setPersonas((prev) =>
+      setPersonas(prev =>
         esNueva
           ? [...prev, personaGuardada]
-          : prev.map((p) => (p.id === personaGuardada.id ? personaGuardada : p))
+          : prev.map(p => (p.id === personaGuardada.id ? personaGuardada : p))
       );
 
       mostrarMensaje(
-        esNueva
-          ? "Persona registrada exitosamente!"
-          : "Persona actualizada exitosamente!",
+        esNueva ? "Persona registrada exitosamente!" : "Persona actualizada exitosamente!",
         "success"
       );
+
+      setMostrarModalPersona(false);
+      setPersonaSeleccionada(null);
     } catch (error) {
       console.error("Error al guardar persona:", error);
       mostrarMensaje("No se pudo guardar la persona.", "error");
@@ -61,11 +63,11 @@ export function usePersonas() {
     }
   };
 
-  const eliminarPersona = async (id: number) => {
+  const eliminarPersonaById = async (id: number) => {
     setCargando(true);
     try {
       await eliminarPersona(id);
-      setPersonas((prev) => prev.filter((p) => p.id !== id));
+      setPersonas(prev => prev.filter(p => p.id !== id));
       mostrarMensaje("Persona eliminada exitosamente!", "success");
     } catch (error) {
       console.error("Error al eliminar persona:", error);
@@ -77,10 +79,14 @@ export function usePersonas() {
 
   return {
     personas,
-    cargando,
-    guardarPersona,
-    eliminarPersona,
-    recargar: cargarPersonas,
+    personaSeleccionada,
+    mostrarModalPersona,
     setPersonas,
+    setPersonaSeleccionada,
+    setMostrarModalPersona,
+    guardarPersona,
+    eliminarPersona: eliminarPersonaById,
+    recargar: cargarPersonas,
+    cargando,
   };
 }

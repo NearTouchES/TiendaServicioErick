@@ -7,11 +7,13 @@ import {
   obtenerEmpleados,
   agregarEmpleado,
   actualizarEmpleado,
-  eliminarEmpleado
+  eliminarEmpleado as eliminarEmpleadoApi
 } from "@/lib/api/empleado";
 
 export function useEmpleado() {
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
+  const [empleadoSeleccionado, setEmpleadoSeleccionado] = useState<Empleado | null>(null);
+  const [mostrarModalEmpleado, setMostrarModalEmpleado] = useState<boolean>(false);
   const [cargando, setCargando] = useState<boolean>(false);
   const { mostrarMensaje } = useMensaje();
 
@@ -53,6 +55,9 @@ export function useEmpleado() {
           : "Empleado actualizado exitosamente!",
         "success"
       );
+
+      setEmpleadoSeleccionado(null);
+      setMostrarModalEmpleado(false);
     } catch (error) {
       console.error("Error al guardar empleado:", error);
       mostrarMensaje("No se pudo guardar el empleado.", "error");
@@ -64,7 +69,7 @@ export function useEmpleado() {
   const eliminarEmpleado = async (id: number) => {
     setCargando(true);
     try {
-      await eliminarEmpleado(id);
+      await eliminarEmpleadoApi(id);
       setEmpleados((prev) => prev.filter((e) => e.id !== id));
       mostrarMensaje("Empleado eliminado exitosamente!", "success");
     } catch (error) {
@@ -77,9 +82,13 @@ export function useEmpleado() {
 
   return {
     empleados,
-    cargando,
+    empleadoSeleccionado,
+    mostrarModalEmpleado,
+    setEmpleadoSeleccionado,
+    setMostrarModalEmpleado,
     guardarEmpleado,
     eliminarEmpleado,
+    cargando,
     recargar: cargarEmpleados,
     setEmpleados,
   };

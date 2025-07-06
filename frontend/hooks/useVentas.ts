@@ -7,7 +7,7 @@ import {
   getVentas,
   crearVenta,
   actualizarVenta as apiActualizarVenta,
-  eliminarVenta
+  eliminarVenta as apiEliminarVenta, // <- alias aquí
 } from "@/lib/api/ventas";
 
 export function useVentas() {
@@ -65,7 +65,7 @@ export function useVentas() {
   const eliminarVenta = async (id: number) => {
     setCargando(true);
     try {
-      await eliminarVenta(id);
+      await apiEliminarVenta(id);
       setVentas(prev => prev.filter(v => v.id !== id));
       mostrarMensaje("Venta eliminada correctamente.", "success");
     } catch (error) {
@@ -83,5 +83,6 @@ export function useVentas() {
     modificarVenta,
     eliminarVenta,
     recargar: cargarVentas,
+    setVentas,
   };
 }

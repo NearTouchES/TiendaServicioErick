@@ -1,63 +1,63 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  getAdministradores,
-  agregarAdministrador,
-  actualizarAdministrador,
-  eliminarAdministrador
-} from "@/lib/api/administrador";
+import * as adminApi from "@/lib/api/administrador";
 import { Administrador } from "@/modelo/administrador";
 import { useMensaje } from "@/hooks/useMensaje";
 
 export function useAdministradores() {
-  const [administradores, setAdministradores] = useState<Administrador[]>([]);
   const [cargando, setCargando] = useState(false);
+  const [administradores, setAdministradores] = useState<Administrador[]>([]);
+  const [administradorSeleccionado, setAdministradorSeleccionado] = useState<Administrador | null>(null);
+  const [mostrarModalAdministrador, setMostrarModalAdministrador] = useState<boolean>(false);
   const { mostrarMensaje } = useMensaje();
 
-  const cargarAdministradores = async () => {
-    setCargando(true);
-    try {
-      const data = await getAdministradores();
-      setAdministradores(data);
-    } catch (error) {
-      console.error("Error al cargar administradores:", error);
-      mostrarMensaje("Error al cargar administradores", "error");
-    } finally {
-      setCargando(false);
-    }
-  };
+  useEffect(() => {
+    const cargarAdministradores = async () => {
+      setCargando(true);
+      try {
+        const fetchedAdmins = await adminApi.getAdministradores();
+        setAdministradores(fetchedAdmins);
+      } catch (error) {
+        mostrarMensaje("No se pudieron cargar los administradores.", "error");
+        console.error("Error al cargar administradores:", error);
+      } finally {
+        setCargando(false);
+      }
+    };
+    cargarAdministradores();
+  }, []);
 
   const crearAdministrador = async (admin: Omit<Administrador, "id">) => {
     setCargando(true);
     try {
-      const nuevo = await agregarAdministrador(admin);
-      setAdministradores((prev) => [...prev, nuevo]);
+      const nuevoAdmin = await adminApi.agregarAdministrador(admin);
+      setAdministradores((prev) => [...prev, nuevoAdmin]);
       mostrarMensaje("Administrador creado correctamente", "success");
+      setMostrarModalAdministrador(false);
     } catch (error) {
-      console.error("Error al crear administrador:", error);
       mostrarMensaje("No se pudo crear el administrador", "error");
+      console.error("Error al crear administrador:", error);
     } finally {
       setCargando(false);
     }
   };
 
-  const editarAdministrador = async (admin: Administrador) => {
+  const actualizarAdministrador = async (admin: Administrador) => {
     if (!admin.id) {
       mostrarMensaje("ID del administrador no especificado", "error");
       return;
     }
-
     setCargando(true);
     try {
-      const actualizado = await actualizarAdministrador(admin);
-      setAdministradores((prev) =>
-        prev.map((a) => (a.id === actualizado.id ? actualizado : a))
-      );
-      mostrarMensaje("Administrador actualizado", "success");
+      const actualizado = await adminApi.actualizarAdministrador(admin);
+      setAdministradores((prev) => prev.map((a) => (a.id === actualizado.id ? actualizado : a)));
+      mostrarMensaje("Administrador actualizado correctamente", "success");
+      setAdministradorSeleccionado(null);
+      setMostrarModalAdministrador(false);
     } catch (error) {
-      console.error("Error al actualizar administrador:", error);
       mostrarMensaje("No se pudo actualizar el administrador", "error");
+      console.error("Error al actualizar administrador:", error);
     } finally {
       setCargando(false);
     }
@@ -66,28 +66,26 @@ export function useAdministradores() {
   const eliminarAdministrador = async (id: number) => {
     setCargando(true);
     try {
-      await eliminarAdministrador(id);
+      await adminApi.eliminarAdministrador(id);
       setAdministradores((prev) => prev.filter((a) => a.id !== id));
-      mostrarMensaje("Administrador eliminado", "success");
+      mostrarMensaje("Administrador eliminado correctamente", "success");
     } catch (error) {
-      console.error("Error al eliminar administrador:", error);
       mostrarMensaje("No se pudo eliminar el administrador", "error");
+      console.error("Error al eliminar administrador:", error);
     } finally {
       setCargando(false);
     }
   };
 
-  useEffect(() => {
-    cargarAdministradores();
-  }, []);
-
   return {
     administradores,
-    cargando,
-    cargarAdministradores,
+    administradorSeleccionado,
+    mostrarModalAdministrador,
+    setAdministradorSeleccionado,
+    setMostrarModalAdministrador,
     crearAdministrador,
-    editarAdministrador,
+    actualizarAdministrador,
     eliminarAdministrador,
-    setAdministradores,
+    cargando,
   };
 }

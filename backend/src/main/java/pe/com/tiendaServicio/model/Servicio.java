@@ -8,7 +8,7 @@ import lombok.Data;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "Servicio") // ✅ Tabla en singular
+@Table(name = "Servicio")
 @Data
 public class Servicio {
 
@@ -16,12 +16,20 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idServicio;
 
-    @Column(length = 45)
-    private String descripcion;
-
-    @Column(name = "nombreServicio", length = 45)
+    @Column(length = 100)
     private String nombreServicio;
 
-    @Column(length = 45)
+    @Column(length = 500)
+    private String descripcion;
+
+    @Column(precision = 10, scale = 2)
     private BigDecimal costoServicio;
+
+    @Column(length = 100)
+    private String especialidad;  // Nueva
+
+    private Integer duracion;     // En minutos, nueva
+
+    @Column(length = 20)
+    private String modalidad;     // "Presencial", "Virtual", "Mixto"
 }

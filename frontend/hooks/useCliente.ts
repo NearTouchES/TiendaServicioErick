@@ -7,11 +7,13 @@ import {
   getClientes,
   crearCliente,
   actualizarCliente,
-  eliminarCliente
+  eliminarCliente as eliminarClienteApi
 } from "@/lib/api/cliente";
 
 export function useCliente() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<Cliente | null>(null);
+  const [mostrarModalCliente, setMostrarModalCliente] = useState<boolean>(false);
   const [cargando, setCargando] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { mostrarMensaje } = useMensaje();
@@ -35,7 +37,7 @@ export function useCliente() {
     cargarClientes();
   }, [cargarClientes]);
 
-  const registrarCliente = async (cliente: Omit<Cliente, "id"> | Cliente) => {
+  const registrarCliente = async (cliente: Cliente | Omit<Cliente, "id">) => {
     setCargando(true);
     try {
       const esNuevo = !("id" in cliente);
@@ -53,6 +55,8 @@ export function useCliente() {
         esNuevo ? "Cliente registrado correctamente." : "Cliente actualizado correctamente.",
         "success"
       );
+      setClienteSeleccionado(null);
+      setMostrarModalCliente(false);
     } catch (err: any) {
       console.error("Error al guardar cliente:", err);
       setError(err.message || "Error al guardar cliente");
@@ -65,7 +69,7 @@ export function useCliente() {
   const eliminarCliente = async (id: number) => {
     setCargando(true);
     try {
-      await eliminarCliente(id);
+      await eliminarClienteApi(id);
       setClientes(prev => prev.filter(c => c.id !== id));
       mostrarMensaje("Cliente eliminado correctamente.", "success");
     } catch (err: any) {
@@ -78,11 +82,15 @@ export function useCliente() {
 
   return {
     clientes,
-    cargando,
-    error,
+    clienteSeleccionado,
+    mostrarModalCliente,
+    setClienteSeleccionado,
+    setMostrarModalCliente,
     registrarCliente,
     eliminarCliente,
-    recargarClientes: cargarClientes,
+    cargando,
+    error,
     setClientes,
+    recargarClientes: cargarClientes,
   };
 }

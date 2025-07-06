@@ -1,16 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
+import { useState, useRef } from "react";
 
 type TipoMensaje = 'success' | 'error' | '';
 
-export function useMensaje() {
-  const [mensaje, setMensaje] = useState<{ text: string; type: TipoMensaje }>({ text: '', type: '' });
+interface Mensaje {
+  text: string;
+  type: TipoMensaje;
+}
 
-  const mostrarMensaje = (text: string, type: 'success' | 'error') => {
+export function useMensaje() {
+  const [mensaje, setMensaje] = useState<Mensaje>({ text: '', type: '' });
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const mostrarMensaje = (text: string, type: 'success' | 'error', duracion: number = 3000) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
     setMensaje({ text, type });
-    setTimeout(() => setMensaje({ text: '', type: '' }), 3000);
+
+    timeoutRef.current = setTimeout(() => {
+      setMensaje({ text: '', type: '' });
+      timeoutRef.current = null;
+    }, duracion);
   };
 
-  return { mensaje, mostrarMensaje };
+  return {
+    mensaje,
+    mostrarMensaje,
+  };
 }

@@ -7,14 +7,14 @@ import {
   getServicios,
   crearServicio,
   actualizarServicio as apiActualizarServicio,
-  eliminarServicio
+  eliminarServicio as apiEliminarServicio,
 } from "@/lib/api/servicios";
 
 export function useServicios() {
   const [servicios, setServicios] = useState<Servicio[]>([]);
-  const [cargando, setCargando] = useState(true);
-  const [mostrarModalServicio, setMostrarServicioModal] = useState(false);
   const [servicioSeleccionado, setServicioSeleccionado] = useState<Servicio | null>(null);
+  const [mostrarModalServicio, setMostrarModalServicio] = useState<boolean>(false);
+  const [cargando, setCargando] = useState<boolean>(false);
   const { mostrarMensaje } = useMensaje();
 
   const cargarServicios = useCallback(async () => {
@@ -34,43 +34,40 @@ export function useServicios() {
     cargarServicios();
   }, [cargarServicios]);
 
-  const agregarServicio = async (servicio: Omit<Servicio, "id">) => {
+  const registrarServicio = async (servicio: Servicio | Omit<Servicio, "idServicio">) => {
     setCargando(true);
+    const esNuevo = !("idServicio" in servicio);
     try {
-      const nuevo = await crearServicio(servicio);
-      setServicios(prev => [...prev, nuevo]);
-      mostrarMensaje("Servicio agregado correctamente.", "success");
-      setMostrarServicioModal(false);
-    } catch (error) {
-      console.error("Error al agregar servicio:", error);
-      mostrarMensaje("No se pudo agregar el servicio.", "error");
-    } finally {
-      setCargando(false);
-    }
-  };
+      const resultado = esNuevo
+        ? await crearServicio(servicio as Omit<Servicio, "idServicio">)
+        : await apiActualizarServicio(servicio as Servicio);
 
-  const actualizarServicio = async (servicio: Servicio) => {
-    setCargando(true);
-    try {
-      const actualizado = await apiActualizarServicio(servicio);
-      setServicios(prev =>
-        prev.map(s => (s.id === actualizado.id ? actualizado : s))
+      setServicios((prev) =>
+        esNuevo
+          ? [...prev, resultado]
+          : prev.map((s) => (s.idServicio === resultado.idServicio ? resultado : s))
       );
-      mostrarMensaje("Servicio actualizado correctamente.", "success");
-      setMostrarServicioModal(false);
+
+      mostrarMensaje(
+        esNuevo ? "Servicio agregado correctamente." : "Servicio actualizado correctamente.",
+        "success"
+      );
+
+      setMostrarModalServicio(false);
+      setServicioSeleccionado(null);
     } catch (error) {
-      console.error("Error al actualizar servicio:", error);
-      mostrarMensaje("No se pudo actualizar el servicio.", "error");
+      console.error("Error al guardar servicio:", error);
+      mostrarMensaje("No se pudo guardar el servicio.", "error");
     } finally {
       setCargando(false);
     }
   };
 
-  const eliminarServicio = async (id: number) => {
+  const eliminarServicioById = async (idServicio: number) => {
     setCargando(true);
     try {
-      await eliminarServicio(id);
-      setServicios(prev => prev.filter(s => s.id !== id));
+      await apiEliminarServicio(idServicio);
+      setServicios((prev) => prev.filter((s) => s.idServicio !== idServicio));
       mostrarMensaje("Servicio eliminado correctamente.", "success");
     } catch (error) {
       console.error("Error al eliminar servicio:", error);
@@ -82,14 +79,14 @@ export function useServicios() {
 
   return {
     servicios,
-    cargando,
-    mostrarModalServicio,
-    setMostrarServicioModal,
     servicioSeleccionado,
+    mostrarModalServicio,
     setServicioSeleccionado,
-    agregarServicio,
-    actualizarServicio,
-    eliminarServicio,
+    setMostrarModalServicio,
+    registrarServicio,
+    eliminarServicio: eliminarServicioById,
     recargar: cargarServicios,
+    cargando,
+    setServicios,
   };
 }

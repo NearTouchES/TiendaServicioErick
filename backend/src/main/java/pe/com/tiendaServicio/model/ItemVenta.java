@@ -11,7 +11,7 @@ import lombok.Data;
 public class ItemVenta {
 
     @Id
-    private Integer idItemVenta; // ✅ Alineado con el nombre de la clase y tabla
+    private Integer idItemVenta; // Singular, sin 's'
 
     private String idServicio;
     private String fechaInicio;

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///D:/TiendaServicioErick/frontend/app/globals.css"],"sourcesContent":["body {\n  margin: 0;\n  padding: 0;\n  font-family: sans-serif;\n  background-color: #f5f5f5;\n}\n\nbutton {\n  padding: 10px 20px;\n  margin: 10px;\n  font-size: 16px;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  background-color: #0070f3;\n  color: white;\n  transition: background-color 0.2s ease;\n}\n\nbutton:hover {\n  background-color: #005bb5;\n}\n"],"names":[],"mappings":"AAAA;;;;;;;AAOA;;;;;;;;;;;;AAYA","debugId":null}}]
+}
