@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Empleado } from "@/modelo/empleado";
 
 export default function PaginaEmpleadosApp() {
-  const { empleados, guardar, cargando } = useEmpleado();
+  const { empleados, guardarEmpleado: guardar, cargando } = useEmpleado();
   const [mostrarModal, setMostrarModal] = useState(false);
   const [empleadoSeleccionado, setEmpleadoSeleccionado] = useState<Empleado | null>(null);
 

@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Cliente } from "@/modelo/cliente";
 
 export default function PaginaClientesApp() {
-  const { clientes, guardar, cargando } = useCliente();
+  const { clientes, registrarCliente: guardar, cargando } = useCliente();
   const [mostrarModal, setMostrarModal] = useState(false);
   const [clienteSeleccionado, setClienteSeleccionado] = useState<Cliente | null>(null);
 
