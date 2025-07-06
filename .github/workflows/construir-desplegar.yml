@@ -34,7 +34,7 @@ jobs:
         working-directory: backend
 
       - name: Construir la imagen docker
-        run: docker build -t tiendaservicioerick .
+        run: docker build -t tienda-virtual .
         working-directory: backend
 
       - name: Iniciar Sesión en ECR
@@ -43,15 +43,16 @@ jobs:
 
       - name: Crear el reposiorio ECR si no existe
         run: |
-          aws ecr describe-repositories --repository-names tiendaservicioerick || aws ecr create-repository --repository-name tiendaservicioerick
+          aws ecr describe-repositories --repository-names tienda-virtual || aws ecr create-repository --repository-name tienda-virtual
+
       - name: Push Docker image
         run: |
-          docker tag tiendaservicioerick ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/tiendaservicioerick
-          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/tiendaservicioerick
+          docker tag tienda-virtual ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/tienda-virtual
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/tienda-virtual
       
       - name: Build Lambda Functions
         run: |
-          cd serverless/tiendaServicio/packages/funciones/crear-orden
+          cd serverless/tiendavirtual/packages/funciones/crear-orden
           npm ci
           npm run build
 
