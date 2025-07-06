@@ -1,5 +1,7 @@
 package pe.com.tiendaServicio.model;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,11 +17,11 @@ public class Servicios {
     private Integer idServicio;
 
     @Column(length = 45)
-    private String Descripcion;
+    private String descripcion;
 
-    @Column(name = "NombreServicio", length = 45)
-    private String NombreServicio;
+    @Column(name = "nombreServicio", length = 45)
+    private String nombreServicio;
 
     @Column(length = 45)
-    private String CostoServicio;
+    private BigDecimal costoServicio;
 }

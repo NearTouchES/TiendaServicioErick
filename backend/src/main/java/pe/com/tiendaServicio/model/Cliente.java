@@ -1,23 +1,20 @@
 package pe.com.tiendaServicio.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "Cliente")
 @Data
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✅ Generar el ID automáticamente
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
 
-    @Column(length = 45, nullable = false)
-    private String tipoCliente; // ✅ En Java se recomienda usar camelCase
+    private String tipoCliente;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // ✅ Persistir Persona junto con Cliente
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "Persona_idPersona", nullable = false)
     private Persona persona;
 }
