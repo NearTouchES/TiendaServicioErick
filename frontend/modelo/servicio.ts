@@ -1,6 +1,6 @@
 export interface Servicio {
-  id: number;
-  nombre: string;
-  descripcion?: string;
-  costo: number;
+  id?: number;              // Opcional: autogenerado por el backend
+  nombre: string;           // Obligatorio
+  descripcion?: string;     // Opcional
+  costo: number;            // Obligatorio
 }

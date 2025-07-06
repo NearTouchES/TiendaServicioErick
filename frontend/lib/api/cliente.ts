@@ -1,29 +1,53 @@
 import { Cliente } from "@/modelo/cliente";
 
+const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+
+if (!baseUrl) {
+  throw new Error("La URL base de la API no está definida");
+}
 
 export async function getClientes(): Promise<Cliente[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/clientes`);
-  return res.json();
+  const response = await fetch(`${baseUrl}/clientes`);
+  if (!response.ok) {
+    throw new Error(`Error al obtener clientes: ${response.status} ${response.statusText}`);
+  }
+  return await response.json();
 }
 
 export async function crearCliente(cliente: Omit<Cliente, "id">): Promise<Cliente> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/clientes`, {
+  const response = await fetch(`${baseUrl}/clientes`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(cliente),
   });
-  return res.json();
+
+  if (!response.ok) {
+    throw new Error(`Error al crear cliente: ${response.status} ${response.statusText}`);
+  }
+
+  return await response.json();
 }
 
 export async function actualizarCliente(cliente: Cliente): Promise<Cliente> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/clientes/${cliente.id}`, {
+  const response = await fetch(`${baseUrl}/clientes/${cliente.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(cliente),
   });
-  return res.json();
+
+  if (!response.ok) {
+    throw new Error(`Error al actualizar cliente: ${response.status} ${response.statusText}`);
+  }
+
+  return await response.json();
 }
 
 export async function eliminarCliente(id: number): Promise<void> {
-  await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/clientes/${id}`, { method: "DELETE" });
+  const response = await fetch(`${baseUrl}/clientes/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error al eliminar cliente: ${response.status} ${response.statusText}`);
+  }
 }

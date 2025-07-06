@@ -1,7 +1,7 @@
 export interface Persona {
-  id?: number; // ← lo haces opcional
-  dni: string;
-  nombres: string;
-  apellidos: string;
-  correo_personal: string;
+  id?: number;               // Opcional: el backend lo genera al crear
+  dni: string;               // Obligatorio
+  nombres: string;           // Obligatorio
+  apellidos: string;         // Obligatorio
+  correo_personal: string;   // Obligatorio
 }

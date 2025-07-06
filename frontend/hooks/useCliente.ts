@@ -1,57 +1,78 @@
+"use client";
+
 import { useEffect, useState, useCallback } from "react";
 import { Cliente } from "@/modelo/cliente";
+import { useMensaje } from "@/hooks/useMensaje";
+import {
+  getClientes,
+  crearCliente,
+  actualizarCliente,
+  eliminarCliente
+} from "@/lib/api/cliente";
 
 export function useCliente() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [cargando, setCargando] = useState<boolean>(true);
+  const [cargando, setCargando] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { mostrarMensaje } = useMensaje();
 
-  // Obtener todos los clientes
   const cargarClientes = useCallback(async () => {
+    setCargando(true);
+    setError(null);
     try {
-      setCargando(true);
-      const res = await fetch("http://localhost:3001/clientes"); // o el endpoint real en AWS
-      if (!res.ok) throw new Error("Error al cargar los clientes.");
-      const data = await res.json();
+      const data = await getClientes();
       setClientes(data);
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Error desconocido");
+      console.error("Error al cargar clientes:", err);
+      setError(err.message || "Error al cargar clientes");
+      mostrarMensaje("No se pudieron cargar los clientes", "error");
     } finally {
       setCargando(false);
     }
-  }, []);
+  }, [mostrarMensaje]);
 
   useEffect(() => {
     cargarClientes();
   }, [cargarClientes]);
 
-  // Agregar o actualizar cliente
-  const grabar = async (cliente: Cliente | Omit<Cliente, "id">) => {
+  const registrarCliente = async (cliente: Omit<Cliente, "id"> | Cliente) => {
+    setCargando(true);
     try {
       const esNuevo = !("id" in cliente);
-      const metodo = esNuevo ? "POST" : "PUT";
-      const url = esNuevo
-        ? "/api/clientes"
-        : `/api/clientes/${cliente.id}`;
+      const resultado = esNuevo
+        ? await crearCliente(cliente)
+        : await actualizarCliente(cliente as Cliente);
 
-      const res = await fetch(url, {
-        method: metodo,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cliente),
-      });
-
-      if (!res.ok) throw new Error("Error al guardar el cliente.");
-      const nuevoCliente = await res.json();
-
-      setClientes((prev) =>
+      setClientes(prev =>
         esNuevo
-          ? [...prev, nuevoCliente]
-          : prev.map((c) => (c.id === nuevoCliente.id ? nuevoCliente : c))
+          ? [...prev, resultado]
+          : prev.map(c => (c.id === resultado.id ? resultado : c))
+      );
+
+      mostrarMensaje(
+        esNuevo ? "Cliente registrado correctamente." : "Cliente actualizado correctamente.",
+        "success"
       );
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Error desconocido");
+      console.error("Error al guardar cliente:", err);
+      setError(err.message || "Error al guardar cliente");
+      mostrarMensaje("No se pudo guardar el cliente", "error");
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  const borrarCliente = async (id: number) => {
+    setCargando(true);
+    try {
+      await eliminarCliente(id);
+      setClientes(prev => prev.filter(c => c.id !== id));
+      mostrarMensaje("Cliente eliminado correctamente.", "success");
+    } catch (err: any) {
+      console.error("Error al eliminar cliente:", err);
+      mostrarMensaje("No se pudo eliminar el cliente", "error");
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -59,8 +80,9 @@ export function useCliente() {
     clientes,
     cargando,
     error,
-    grabar,
-    recargar: cargarClientes,
+    registrarCliente,
+    borrarCliente,
+    recargarClientes: cargarClientes,
     setClientes,
   };
 }

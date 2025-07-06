@@ -1,33 +1,53 @@
 import { Servicio } from "@/modelo/servicio";
 
+const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
+
+if (!baseUrl) {
+  throw new Error("La URL base de la API no está definida");
+}
 
 export async function getServicios(): Promise<Servicio[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios`);
-  if (!res.ok) throw new Error("Error al obtener servicios");
-  return res.json();
+  const response = await fetch(`${baseUrl}/servicios`);
+  if (!response.ok) {
+    throw new Error(`Error al obtener servicios: ${response.status} ${response.statusText}`);
+  }
+  return await response.json();
 }
 
 export async function crearServicio(servicio: Omit<Servicio, "id">): Promise<Servicio> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios`, {
+  const response = await fetch(`${baseUrl}/servicios`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(servicio),
   });
-  if (!res.ok) throw new Error("Error al crear servicio");
-  return res.json();
+
+  if (!response.ok) {
+    throw new Error(`Error al crear servicio: ${response.status} ${response.statusText}`);
+  }
+
+  return await response.json();
 }
 
 export async function actualizarServicio(servicio: Servicio): Promise<Servicio> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios/${servicio.id}`, {
+  const response = await fetch(`${baseUrl}/servicios/${servicio.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(servicio),
   });
-  if (!res.ok) throw new Error("Error al actualizar servicio");
-  return res.json();
+
+  if (!response.ok) {
+    throw new Error(`Error al actualizar servicio: ${response.status} ${response.statusText}`);
+  }
+
+  return await response.json();
 }
 
 export async function eliminarServicio(id: number): Promise<void> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE_API}/servicios/${id}`);
-  if (!res.ok) throw new Error("Error al eliminar servicio");
+  const response = await fetch(`${baseUrl}/servicios/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error al eliminar servicio: ${response.status} ${response.statusText}`);
+  }
 }

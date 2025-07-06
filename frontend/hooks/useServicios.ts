@@ -1,51 +1,84 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Servicio } from "@/modelo/servicio";
+import { useMensaje } from "@/hooks/useMensaje";
+import {
+  getServicios,
+  crearServicio,
+  actualizarServicio as apiActualizarServicio,
+  eliminarServicio
+} from "@/lib/api/servicios";
 
 export function useServicios() {
   const [servicios, setServicios] = useState<Servicio[]>([]);
   const [cargando, setCargando] = useState(true);
   const [mostrarModalServicio, setMostrarServicioModal] = useState(false);
   const [servicioSeleccionado, setServicioSeleccionado] = useState<Servicio | null>(null);
+  const { mostrarMensaje } = useMensaje();
 
-  const obtenerServicios = async () => {
+  const cargarServicios = useCallback(async () => {
     setCargando(true);
-    const res = await fetch("http://localhost:3001/servicios");
-    const data = await res.json();
-    setServicios(data);
-    setCargando(false);
-  };
+    try {
+      const data = await getServicios();
+      setServicios(data);
+    } catch (error) {
+      console.error("Error al cargar servicios:", error);
+      mostrarMensaje("No se pudieron cargar los servicios.", "error");
+    } finally {
+      setCargando(false);
+    }
+  }, [mostrarMensaje]);
+
+  useEffect(() => {
+    cargarServicios();
+  }, [cargarServicios]);
 
   const agregarServicio = async (servicio: Omit<Servicio, "id">) => {
-    const res = await fetch("http://localhost:3001/servicios", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(servicio),
-    });
-    const nuevo = await res.json();
-    setServicios([...servicios, nuevo]);
+    setCargando(true);
+    try {
+      const nuevo = await crearServicio(servicio);
+      setServicios(prev => [...prev, nuevo]);
+      mostrarMensaje("Servicio agregado correctamente.", "success");
+      setMostrarServicioModal(false);
+    } catch (error) {
+      console.error("Error al agregar servicio:", error);
+      mostrarMensaje("No se pudo agregar el servicio.", "error");
+    } finally {
+      setCargando(false);
+    }
   };
 
   const actualizarServicio = async (servicio: Servicio) => {
-    await fetch(`http://localhost:3001/servicios/${servicio.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(servicio),
-    });
-    setServicios(servicios.map((s) => (s.id === servicio.id ? servicio : s)));
+    setCargando(true);
+    try {
+      const actualizado = await apiActualizarServicio(servicio);
+      setServicios(prev =>
+        prev.map(s => (s.id === actualizado.id ? actualizado : s))
+      );
+      mostrarMensaje("Servicio actualizado correctamente.", "success");
+      setMostrarServicioModal(false);
+    } catch (error) {
+      console.error("Error al actualizar servicio:", error);
+      mostrarMensaje("No se pudo actualizar el servicio.", "error");
+    } finally {
+      setCargando(false);
+    }
   };
 
-  const eliminarServicio = async (id: number) => {
-    await fetch(`http://localhost:3001/servicios/${id}`, {
-      method: "DELETE",
-    });
-    setServicios(servicios.filter((s) => s.id !== id));
+  const borrarServicio = async (id: number) => {
+    setCargando(true);
+    try {
+      await eliminarServicio(id);
+      setServicios(prev => prev.filter(s => s.id !== id));
+      mostrarMensaje("Servicio eliminado correctamente.", "success");
+    } catch (error) {
+      console.error("Error al eliminar servicio:", error);
+      mostrarMensaje("No se pudo eliminar el servicio.", "error");
+    } finally {
+      setCargando(false);
+    }
   };
-
-  useEffect(() => {
-    obtenerServicios();
-  }, []);
 
   return {
     servicios,
@@ -56,6 +89,7 @@ export function useServicios() {
     setServicioSeleccionado,
     agregarServicio,
     actualizarServicio,
-    eliminarServicio,
+    borrarServicio,
+    recargar: cargarServicios,
   };
 }

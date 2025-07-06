@@ -5,8 +5,8 @@ export interface Empleado {
   puesto: string;
   salario: number;
   correo_institucional?: string;
-  fecha_inicio?: string;
+  fecha_inicio?: string; // formato ISO: "2025-07-06T00:00:00"
   fecha_fin?: string;
-  id_persona: number; // clave foránea
-  persona: Persona;   // objeto anidado
+  id_persona: number;
+  persona: Persona; // viene del backend si hay join
 }
