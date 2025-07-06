@@ -1,18 +1,18 @@
 "use client";
 
-import { Servicio } from "@/modelo/servicios";
+import { Servicios } from "@/modelo/servicios";
 import { useState, useEffect } from "react";
 
 interface Props {
-  servicio: Servicio | null;
+  servicio: Servicios | null;
   cerrar: () => void;
-  guardar: (servicio: Servicio | Omit<Servicio, "idServicio">) => void;
+  guardar: (servicio: Servicios | Omit<Servicios, "idServicio">) => void;
 }
 
 const modalidades = ["Presencial", "Virtual", "Mixto"];
 
 export default function ModalServicio({ servicio, cerrar, guardar }: Props) {
-  const [formulario, setFormulario] = useState<Omit<Servicio, "idServicio">>({
+  const [formulario, setFormulario] = useState<Omit<Servicios, "idServicio">>({
     nombreServicio: "",
     descripcion: "",
     costoServicio: 0,
@@ -28,7 +28,9 @@ export default function ModalServicio({ servicio, cerrar, guardar }: Props) {
     }
   }, [servicio]);
 
-  const manejarCambio = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const manejarCambio = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormulario((prev) => ({
       ...prev,
@@ -44,7 +46,9 @@ export default function ModalServicio({ servicio, cerrar, guardar }: Props) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">{servicio ? "Editar Servicio" : "Nuevo Servicio"}</h2>
+        <h2 className="text-xl font-bold mb-4">
+          {servicio ? "Editar Servicio" : "Nuevo Servicio"}
+        </h2>
 
         <input
           type="text"

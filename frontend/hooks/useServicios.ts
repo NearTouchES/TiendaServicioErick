@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Servicio } from "@/modelo/servicios";
+import { Servicios } from "@/modelo/servicios";
 import { useMensaje } from "@/hooks/useMensaje";
 import {
   getServicios,
@@ -11,8 +11,8 @@ import {
 } from "@/lib/api/servicios";
 
 export function useServicios() {
-  const [servicios, setServicios] = useState<Servicio[]>([]);
-  const [servicioSeleccionado, setServicioSeleccionado] = useState<Servicio | null>(null);
+  const [servicios, setServicios] = useState<Servicios[]>([]);
+  const [servicioSeleccionado, setServicioSeleccionado] = useState<Servicios | null>(null);
   const [mostrarModalServicio, setMostrarModalServicio] = useState<boolean>(false);
   const [cargando, setCargando] = useState<boolean>(false);
   const { mostrarMensaje } = useMensaje();
@@ -34,13 +34,13 @@ export function useServicios() {
     cargarServicios();
   }, [cargarServicios]);
 
-  const registrarServicio = async (servicio: Servicio | Omit<Servicio, "idServicio">) => {
+  const registrarServicio = async (servicio: Servicios | Omit<Servicios, "idServicio">) => {
     setCargando(true);
     const esNuevo = !("idServicio" in servicio);
     try {
       const resultado = esNuevo
-        ? await crearServicio(servicio as Omit<Servicio, "idServicio">)
-        : await apiActualizarServicio(servicio as Servicio);
+        ? await crearServicio(servicio as Omit<Servicios, "idServicio">)
+        : await apiActualizarServicio(servicio as Servicios);
 
       setServicios((prev) =>
         esNuevo

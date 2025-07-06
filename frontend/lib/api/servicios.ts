@@ -1,6 +1,6 @@
-import { Servicio } from "@/modelo/servicios";
+import { Servicios } from "@/modelo/servicios";
 
-export async function getServicios(): Promise<Servicio[]> {
+export async function getServicios(): Promise<Servicios[]> {
   const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
   if (!baseUrl) throw new Error("La URL base de la API no está definida");
 
@@ -11,7 +11,7 @@ export async function getServicios(): Promise<Servicio[]> {
   return await response.json();
 }
 
-export async function crearServicio(servicio: Omit<Servicio, "idServicio">): Promise<Servicio> {
+export async function crearServicio(servicio: Omit<Servicios, "idServicio">): Promise<Servicios> {
   const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
   if (!baseUrl) throw new Error("La URL base de la API no está definida");
 
@@ -28,7 +28,7 @@ export async function crearServicio(servicio: Omit<Servicio, "idServicio">): Pro
   return await response.json();
 }
 
-export async function actualizarServicio(servicio: Servicio): Promise<Servicio> {
+export async function actualizarServicio(servicio: Servicios): Promise<Servicios> {
   const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
   if (!baseUrl) throw new Error("La URL base de la API no está definida");
 
