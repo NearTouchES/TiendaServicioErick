@@ -30,10 +30,10 @@ public class ServiciosController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // ✅ CORREGIDO
     @PostMapping
-    public ResponseEntity<Servicios> crear(@RequestBody Servicios servicio) {
-        Servicios nuevo = serviciosService.guardar(servicio);
-        return ResponseEntity.ok(nuevo);
+    public Servicios crearServicio(@RequestBody Servicios servicio) {
+        return serviciosService.guardar(servicio); // <- usa el servicio correctamente
     }
 
     @PutMapping("/{id}")
