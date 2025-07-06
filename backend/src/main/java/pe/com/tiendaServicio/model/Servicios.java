@@ -3,20 +3,23 @@ package pe.com.tiendaServicio.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "Servicio")
 @Data
 public class Servicios {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idServicio;
 
-    @Column(length = 45)
-    private String Descripcion;
+    @Column(length = 45, nullable = false)
+    private String nombreServicio;
 
-    @Column(name = "NombreServicio", length = 45)
-    private String NombreServicio;
+    @Column(length = 100)
+    private String descripcion;
 
-    @Column(length = 45)
-    private String CostoServicio;
+    @Column(precision = 10, scale = 2, nullable = false)
+    private BigDecimal costoServicio;
 }

@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 import pe.com.tiendaServicio.model.ItemVentas;
 
 import java.util.List;
+import java.util.Date;
 
 @Repository
 public interface ItemVentasRepository extends JpaRepository<ItemVentas, Integer> {
-    List<ItemVentas> findByVentasIdVenta(Integer ventaId);
-    List<ItemVentas> findByServiciosIdServicio(Integer servicioId);
+    List<ItemVentas> findByVentas_IdVenta(Integer idVenta);
+    List<ItemVentas> findByServicios_IdServicio(Integer idServicio);
+    List<ItemVentas> findByFechaInicioBetween(Date inicio, Date fin);
 }

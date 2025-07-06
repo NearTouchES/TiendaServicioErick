@@ -3,6 +3,7 @@ package pe.com.tiendaServicio.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -14,20 +15,22 @@ public class Empleado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEmpleado;
 
-    @Column(nullable = false)
-    private Double Salario;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal salario;
 
     @Column(length = 50, nullable = false)
-    private String Puesto;
+    private String puesto;
 
     @Column(length = 50)
-    private String CorreoInstitucional;
+    private String correoInstitucional;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date FechaInicioEmpleado;
+    @Column(name = "fechaInicioEmpleado")
+    private Date fechaInicioEmpleado;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date FechaFinEmpleado;
+    @Column(name = "fechaFinEmpleado")
+    private Date fechaFinEmpleado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Persona_idPersona", nullable = false)

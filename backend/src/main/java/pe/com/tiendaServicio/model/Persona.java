@@ -3,6 +3,8 @@ package pe.com.tiendaServicio.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Persona")
 @Data
@@ -13,20 +15,31 @@ public class Persona {
     private Integer idPersona;
 
     @Column(length = 10, nullable = false)
-    private String DNI;
+    private String dni;
 
     @Column(length = 50, nullable = false)
-    private String Nombres;
+    private String nombres;
 
     @Column(length = 50, nullable = false)
-    private String Apellidos;
+    private String apellidos;
 
     @Column(length = 9)
-    private String Celular;
+    private String celular;
 
     @Column(length = 50, nullable = false)
-    private String CorreoPersonal;
+    private String correoPersonal;
 
     @Column(length = 50)
-    private String Nacionalidad;
+    private String nacionalidad;
+
+    // Relaciones con otras entidades
+
+    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Empleado> empleados;
+
+    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Administrador> administradores;
+
+    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Cliente> clientes;
 }

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/administradores")
+@CrossOrigin(origins = "*") // opcional si tu frontend está separado
 public class AdministradorController {
 
     private final AdministradorService administradorService;
@@ -19,29 +20,35 @@ public class AdministradorController {
     }
 
     @GetMapping
-    public List<Administrador> listar() {
-        return administradorService.listarTodos();
+    public ResponseEntity<List<Administrador>> listar() {
+        List<Administrador> administradores = administradorService.listarTodos();
+        return ResponseEntity.ok(administradores);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Administrador> obtenerPorId(@PathVariable Integer id) {
-        Optional<Administrador> administrador = administradorService.obtenerPorId(id);
-        return administrador.map(ResponseEntity::ok)
+        return administradorService.obtenerPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Administrador> crear(@RequestBody Administrador administrador) {
-        Administrador nuevoAdministrador = administradorService.guardar(administrador);
-        return ResponseEntity.ok(nuevoAdministrador);
+        try {
+            Administrador nuevo = administradorService.guardar(administrador);
+            return ResponseEntity.ok(nuevo);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build(); // puedes usar logger si deseas
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Administrador> actualizar(@PathVariable Integer id, @RequestBody Administrador administradorActualizado) {
-        Optional<Administrador> administradorExistente = administradorService.obtenerPorId(id);
-        if (administradorExistente.isPresent()) {
+        Optional<Administrador> existente = administradorService.obtenerPorId(id);
+        if (existente.isPresent()) {
             administradorActualizado.setIdAdministrador(id);
-            return ResponseEntity.ok(administradorService.guardar(administradorActualizado));
+            Administrador actualizado = administradorService.guardar(administradorActualizado);
+            return ResponseEntity.ok(actualizado);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -49,7 +56,17 @@ public class AdministradorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
-        administradorService.eliminar(id);
-        return ResponseEntity.noContent().build();
+        try {
+            administradorService.eliminar(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build(); // ya manejado desde service
+        }
+    }
+
+    @GetMapping("/persona/{personaId}")
+    public ResponseEntity<List<Administrador>> listarPorPersona(@PathVariable Integer personaId) {
+        List<Administrador> lista = administradorService.listarPorPersonaId(personaId);
+        return ResponseEntity.ok(lista);
     }
 }

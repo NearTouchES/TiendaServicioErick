@@ -9,10 +9,11 @@ import lombok.Data;
 public class Cliente {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
 
-    @Column(length = 45, nullable = false)
-    private String TipoCliente;
+    @Column(name = "tipoCliente", length = 45, nullable = false)
+    private String tipoCliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Persona_idPersona", nullable = false)

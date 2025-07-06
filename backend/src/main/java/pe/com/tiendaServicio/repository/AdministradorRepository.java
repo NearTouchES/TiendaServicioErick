@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface AdministradorRepository extends JpaRepository<Administrador, Integer> {
-    List<Administrador> findByPersonaIdPersona(Integer personaId);
+    List<Administrador> findByPersona_IdPersona(Integer idPersona);
 }
