@@ -22,7 +22,7 @@ INSERT INTO Venta (id_cliente, id_empleado, fecha) VALUES
 (1, 1, '2024-07-01 10:00:00'),
 (2, 2, '2024-07-02 15:30:00');
 
--- Venta 1 (Lucía recibió 2 servicios)
+-- Venta 1 (Lucía recibió 2 servicio)
 INSERT INTO ItemVenta (id_venta, id_servicio, fecha_inicio, fecha_fin, subtotal) VALUES
 (1, 1, '2024-07-01', '2024-07-01', 120.00),
 (1, 2, '2024-07-01', '2024-07-01', 80.00);

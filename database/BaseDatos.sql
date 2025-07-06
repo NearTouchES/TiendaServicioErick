@@ -90,7 +90,7 @@ ALTER TABLE Venta
     FOREIGN KEY (id_empleado) REFERENCES Empleado(id);
 
 -- -----------------------------------------------------
--- Table `base13`.`Servicios`
+-- Table `base13`.`Servicio`
 -- -----------------------------------------------------
 CREATE TABLE Servicio (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

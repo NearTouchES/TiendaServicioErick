@@ -2,14 +2,14 @@ package pe.com.tiendaServicio.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.com.tiendaServicio.model.Servicios;
+import pe.com.tiendaServicio.model.Servicio;
 import pe.com.tiendaServicio.service.ServicioService;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/servicios")
+@RequestMapping("/api/servicio")
 public class ServicioController {
 
     private final ServicioService servicioService;
