@@ -1,20 +1,20 @@
---SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
---SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
---SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+-- SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+-- SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+-- SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema base13
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema base13
 -- -----------------------------------------------------
---CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+--CREATE SCHEMA IF NOT EXISTS `base13` DEFAULT CHARACTER SET utf8 ;
 -- Basic tables
-USE `mydb` ;
+USE `base13` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Persona`
+-- Table `base13`.`Persona`
 -- -----------------------------------------------------
 CREATE TABLE Persona (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -27,7 +27,7 @@ CREATE TABLE Persona (
 );
 
 -- -----------------------------------------------------
--- Table `mydb`.`Empleado`
+-- Table `base13`.`Empleado`
 -- -----------------------------------------------------
 CREATE TABLE Empleado (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -45,7 +45,7 @@ ALTER TABLE Empleado
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Cliente`
+-- Table `base13`.`Cliente`
 -- -----------------------------------------------------
 CREATE TABLE Cliente (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -58,7 +58,7 @@ ALTER TABLE Cliente
     FOREIGN KEY (id_persona) REFERENCES Persona(id);
 
 -- -----------------------------------------------------
--- Table `mydb`.`Administrador`
+-- Table `base13`.`Administrador`
 -- -----------------------------------------------------
 CREATE TABLE Administrador (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -72,7 +72,7 @@ ALTER TABLE Administrador
     FOREIGN KEY (id_persona) REFERENCES Persona(id);
 
 -- -----------------------------------------------------
--- Table `mydb`.`Ventas`
+-- Table `base13`.`Ventas`
 -- -----------------------------------------------------
 CREATE TABLE Venta (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -90,7 +90,7 @@ ALTER TABLE Venta
     FOREIGN KEY (id_empleado) REFERENCES Empleado(id);
 
 -- -----------------------------------------------------
--- Table `mydb`.`Servicios`
+-- Table `base13`.`Servicios`
 -- -----------------------------------------------------
 CREATE TABLE Servicio (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -101,7 +101,7 @@ CREATE TABLE Servicio (
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`ItemVentas`
+-- Table `base13`.`ItemVentas`
 -- -----------------------------------------------------
 CREATE TABLE ItemVenta (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -120,6 +120,6 @@ ALTER TABLE ItemVenta
     ADD CONSTRAINT FK_ItemVenta_Servicio
     FOREIGN KEY (id_servicio) REFERENCES Servicio(id);
 
---SET SQL_MODE=@OLD_SQL_MODE;
---SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
---SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+-- SET SQL_MODE=@OLD_SQL_MODE;
+-- SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+-- SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
