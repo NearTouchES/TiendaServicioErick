@@ -35,12 +35,12 @@ public class Ventas {
     @JsonManagedReference("venta-items")
     private List<ItemVentas> items = new ArrayList<>();
 
-    @Column(nullable = false)
+    @Column(name = "subtotal", nullable = false)
     private double subtotal;
 
-    @Column(nullable = false)
+    @Column(name = "igv", nullable = false)
     private double igv;
 
-    @Column(nullable = false)
+    @Column(name = "total", nullable = false)
     private double total;
 }
