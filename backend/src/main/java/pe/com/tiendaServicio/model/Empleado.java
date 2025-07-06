@@ -4,39 +4,34 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "Empleado")
-@Access(AccessType.FIELD)
 @Data
 public class Empleado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idEmpleado") // nombre real en la BD
     private Integer idEmpleado;
 
-    @Column(name = "salario", nullable = false, precision = 10, scale = 2)
-    private BigDecimal salario;
+    @Column(nullable = false)
+    private Double Salario;
 
-    @Column(name = "puesto", length = 50, nullable = false)
-    private String puesto;
+    @Column(length = 50, nullable = false)
+    private String Puesto;
 
-    @Column(name = "correoInstitucional", length = 50)
-    private String correoInstitucional;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fechaInicioEmpleado")
-    private Date fechaInicioEmpleado;
+    @Column(length = 50)
+    private String CorreoInstitucional;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fechaFinEmpleado")
-    private Date fechaFinEmpleado;
+    private Date FechaInicioEmpleado;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPersona", referencedColumnName = "idPersona", nullable = false)
-    @JsonIgnoreProperties({"empleados", "clientes", "administradores"})
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date FechaFinEmpleado;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "Persona_idPersona", nullable = false)
     private Persona persona;
 }

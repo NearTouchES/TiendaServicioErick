@@ -4,22 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "Cliente")
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCliente")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✅ Generar el ID automáticamente
     private Integer idCliente;
 
-    @Column(name = "tipoCliente", length = 45, nullable = false)
-    private String tipoCliente;
+    @Column(length = 45, nullable = false)
+    private String tipoCliente; // ✅ En Java se recomienda usar camelCase
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idPersona", nullable = false)
-    @JsonIgnoreProperties({"clientes", "empleados", "administradores"})  // evita bucles al serializar
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // ✅ Persistir Persona junto con Cliente
+    @JoinColumn(name = "Persona_idPersona", nullable = false)
     private Persona persona;
 }
