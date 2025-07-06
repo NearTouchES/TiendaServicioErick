@@ -5,7 +5,7 @@ import PaginaServicios from "@/componentes/PaginaServicios";
 import ModalServicio from "@/componentes/ModalServicio";
 
 import { useServicios } from "@/hooks/useServicios";
-import { Servicio } from "@/modelo/servicio";
+import { Servicio } from "@/modelo/servicios;
 
 export default function TiendaServicioDashboard() {
   const [pagina, setPagina] = useState<"servicios">("servicios");

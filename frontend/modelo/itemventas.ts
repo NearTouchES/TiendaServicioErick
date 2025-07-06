@@ -1,4 +1,4 @@
-import { Servicio } from "./servicio";
+import { Servicio } from "./servicios";
 import { Venta } from "./ventas";
 
 export interface ItemVenta {

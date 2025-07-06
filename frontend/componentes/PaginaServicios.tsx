@@ -1,6 +1,6 @@
 "use client";
 
-import { Servicio } from "@/modelo/servicio";
+import { Servicio } from "@/modelo/servicios";
 
 interface Props {
   servicios: Servicio[];

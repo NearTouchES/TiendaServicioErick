@@ -44,7 +44,7 @@ resource "aws_apigatewayv2_integration" "clientes_integration" {
 resource "aws_apigatewayv2_integration" "servicios_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
-  integration_uri        = "http://${var.load_balancer_url}/api/servicio"
+  integration_uri        = "http://${var.load_balancer_url}/api/servicios"
   integration_method     = "ANY"
   payload_format_version = "1.0"
 }
@@ -52,7 +52,7 @@ resource "aws_apigatewayv2_integration" "servicios_integration_get_all" {
 resource "aws_apigatewayv2_integration" "servicios_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
-  integration_uri        = "http://${var.load_balancer_url}/api/servicio/{proxy}"
+  integration_uri        = "http://${var.load_balancer_url}/api/servicios/{proxy}"
   integration_method     = "ANY"
   payload_format_version = "1.0"
 }
@@ -243,7 +243,7 @@ resource "aws_apigatewayv2_route" "servicios_post" {
 
 resource "aws_apigatewayv2_route" "servicios_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "PUT /servicio/{proxy+}"
+  route_key = "PUT /servicios/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.servicios_integration.id}"
 }
 

@@ -1,4 +1,4 @@
-export interface Servicio {
+export interface Servicios {
   idServicio: number;
   nombreServicio: string;
   descripcion: string;

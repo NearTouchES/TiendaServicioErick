@@ -1,6 +1,6 @@
 "use client";
 
-import { Servicio } from "@/modelo/servicio";
+import { Servicio } from "@/modelo/servicios";
 import { useState, useEffect } from "react";
 
 interface Props {

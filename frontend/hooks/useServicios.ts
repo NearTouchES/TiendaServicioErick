@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Servicio } from "@/modelo/servicio";
+import { Servicio } from "@/modelo/servicios";
 import { useMensaje } from "@/hooks/useMensaje";
 import {
   getServicios,
