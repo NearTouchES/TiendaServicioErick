@@ -6,20 +6,20 @@ import lombok.Data;
 
 @Entity
 @Table(name = "Cliente")
-@Access(AccessType.FIELD)
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCliente") // <-- nombre real en la BD
+    @Column(name = "idCliente")
     private Integer idCliente;
 
-    @Column(name = "tipoCliente", length = 45, nullable = false) // <-- nombre real en la BD
+    @Column(name = "tipoCliente", length = 45, nullable = false)
     private String tipoCliente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPersona", referencedColumnName = "idPersona", nullable = false)
-    @JsonIgnoreProperties({"clientes", "empleados", "administradores"}) // rompe ciclos
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idPersona", nullable = false)
+    @JsonIgnoreProperties({"clientes", "empleados", "administradores"})  // evita bucles al serializar
     private Persona persona;
 }

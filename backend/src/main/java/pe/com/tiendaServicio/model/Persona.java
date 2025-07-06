@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "Persona")
 @Access(AccessType.FIELD)
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // protección contra errores de Hibernate en serialización
 public class Persona {
 
     @Id
@@ -35,16 +36,16 @@ public class Persona {
     @Column(name = "nacionalidad", length = 50)
     private String nacionalidad;
 
-    // Relaciones con otras entidades
+    // Relaciones inversas
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("persona")
+    @JsonIgnoreProperties({"persona", "hibernateLazyInitializer", "handler"})
     private List<Empleado> empleados;
 
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("persona")
+    @JsonIgnoreProperties({"persona", "hibernateLazyInitializer", "handler"})
     private List<Administrador> administradores;
 
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("persona")
+    @JsonIgnoreProperties({"persona", "hibernateLazyInitializer", "handler"})
     private List<Cliente> clientes;
 }
