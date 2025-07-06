@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface EmpleadoRepository extends JpaRepository<Empleado, Integer> {
-    List<Empleado> findByPersona_IdPersona(Integer idPersona);
-    List<Empleado> findByPuestoContainingIgnoreCase(String puesto);
+    List<Empleado> findByPersonaIdPersona(Integer personaId);
 }

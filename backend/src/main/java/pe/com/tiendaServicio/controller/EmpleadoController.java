@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/empleados")
+@RequestMapping("/api/empleados")
 public class EmpleadoController {
 
     private final EmpleadoService empleadoService;
@@ -30,7 +30,7 @@ public class EmpleadoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Empleado> crear(@RequestBody Empleado empleado) {
         Empleado nuevoEmpleado = empleadoService.guardar(empleado);
         return ResponseEntity.ok(nuevoEmpleado);

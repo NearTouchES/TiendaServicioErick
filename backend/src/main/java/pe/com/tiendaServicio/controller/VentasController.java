@@ -2,14 +2,14 @@ package pe.com.tiendaServicio.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.com.tiendaServicio.model.Venta;
+import pe.com.tiendaServicio.model.Ventas;
 import pe.com.tiendaServicio.service.VentasService;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/ventas")
+@RequestMapping("/api/ventas")
 public class VentasController {
 
     private final VentasService ventasService;
@@ -19,26 +19,26 @@ public class VentasController {
     }
 
     @GetMapping
-    public List<Venta> listar() {
+    public List<Ventas> listar() {
         return ventasService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> obtenerPorId(@PathVariable Integer id) {
-        Optional<Venta> venta = ventasService.obtenerPorId(id);
+    public ResponseEntity<Ventas> obtenerPorId(@PathVariable Integer id) {
+        Optional<Ventas> venta = ventasService.obtenerPorId(id);
         return venta.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Venta> crear(@RequestBody Venta venta) {
-        Venta nuevaVenta = ventasService.guardar(venta);
+    @PostMapping("/create")
+    public ResponseEntity<Ventas> crear(@RequestBody Ventas venta) {
+        Ventas nuevaVenta = ventasService.guardar(venta);
         return ResponseEntity.ok(nuevaVenta);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Venta> actualizar(@PathVariable Integer id, @RequestBody Venta ventaActualizada) {
-        Optional<Venta> ventaExistente = ventasService.obtenerPorId(id);
+    public ResponseEntity<Ventas> actualizar(@PathVariable Integer id, @RequestBody Ventas ventaActualizada) {
+        Optional<Ventas> ventaExistente = ventasService.obtenerPorId(id);
         if (ventaExistente.isPresent()) {
             ventaActualizada.setIdVenta(id);
             return ResponseEntity.ok(ventasService.guardar(ventaActualizada));

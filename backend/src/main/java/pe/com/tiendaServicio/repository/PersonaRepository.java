@@ -6,5 +6,4 @@ import pe.com.tiendaServicio.model.Persona;
 
 @Repository
 public interface PersonaRepository extends JpaRepository<Persona, Integer> {
-    Persona findByDni(String dni);
 }
