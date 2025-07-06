@@ -2,11 +2,10 @@ package pe.com.tiendaServicio.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Empleado")
+@Table(name = "Empleado") // ✅ Tabla en singular
 @Data
 public class Empleado {
 
@@ -21,6 +20,6 @@ public class Empleado {
     private LocalDateTime fechaFinEmpleado;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Persona_idPersona", nullable = false)
+    @JoinColumn(name = "Persona_idPersona", nullable = false) // ✅ Relación en singular
     private Persona persona;
 }

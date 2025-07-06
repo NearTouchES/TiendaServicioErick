@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "Venta")
+@Table(name = "Venta") // ✅ tabla en singular
 @Data
-public class Ventas {
+public class Venta { // ✅ clase en singular
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

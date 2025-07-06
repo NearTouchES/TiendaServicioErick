@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/cliente") // ✅ singular
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -30,7 +30,7 @@ public class ClienteController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente) {
         Cliente nuevoCliente = clienteService.guardar(cliente);
         return ResponseEntity.ok(nuevoCliente);

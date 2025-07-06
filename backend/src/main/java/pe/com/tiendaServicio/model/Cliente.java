@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "Cliente")
+@Table(name = "Cliente") // ✅ Nombre de tabla en singular
 @Data
 public class Cliente {
 
@@ -15,6 +15,6 @@ public class Cliente {
     private String tipoCliente;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Persona_idPersona", nullable = false)
+    @JoinColumn(name = "Persona_idPersona", nullable = false) // ✅ Referencia en singular
     private Persona persona;
 }

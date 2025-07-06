@@ -6,7 +6,7 @@ import lombok.Data;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "Administrador")
+@Table(name = "Administrador") // ✅ tabla en singular
 @Data
 public class Administrador {
 
@@ -21,6 +21,6 @@ public class Administrador {
     private String correoInstitucional;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Persona_idPersona", nullable = false)
+    @JoinColumn(name = "Persona_idPersona", nullable = false) // ✅ relación en singular
     private Persona persona;
 }

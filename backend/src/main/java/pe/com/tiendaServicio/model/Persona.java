@@ -6,7 +6,7 @@ import lombok.Data;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "Persona")
+@Table(name = "Persona") // ✅ tabla en singular
 @Data
 public class Persona {
 
@@ -14,21 +14,21 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPersona;
 
-    @Column(name = "dni", length = 10, nullable = false)
+    @Column(length = 10, nullable = false)
     private String dni;
 
-    @Column(name = "nombres", length = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     private String nombres;
 
-    @Column(name = "apellidos", length = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     private String apellidos;
 
-    @Column(name = "celular", length = 9)
+    @Column(length = 9)
     private String celular;
 
-    @Column(name = "correoPersonal", length = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     private String correoPersonal;
 
-    @Column(name = "nacionalidad", length = 50)
+    @Column(length = 50)
     private String nacionalidad;
 }

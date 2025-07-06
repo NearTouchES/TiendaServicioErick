@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/administradores")
-public class AdministradorController {
+@RequestMapping("/api/administrador") // ✅ Ruta base en singular
+public class AdministradorController { // ✅ Clase ya estaba correcta
 
     private final AdministradorService administradorService;
 
@@ -30,7 +30,7 @@ public class AdministradorController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Administrador> crear(@RequestBody Administrador administrador) {
         Administrador nuevoAdministrador = administradorService.guardar(administrador);
         return ResponseEntity.ok(nuevoAdministrador);
