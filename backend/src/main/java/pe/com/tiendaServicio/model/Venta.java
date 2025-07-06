@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "Venta")
 @Access(AccessType.FIELD)
 @Data
-public class Ventas {
+public class Venta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class Ventas {
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference("venta-items")
-    private List<ItemVentas> items = new ArrayList<>();
+    private List<ItemVenta> items = new ArrayList<>();
 
     @Column(name = "subtotal", nullable = false)
     private double subtotal;

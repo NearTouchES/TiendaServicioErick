@@ -11,7 +11,7 @@ import java.util.Date;
 @Table(name = "ItemVenta")
 @Access(AccessType.FIELD)
 @Data
-public class ItemVentas {
+public class ItemVenta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +32,9 @@ public class ItemVentas {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idVenta", nullable = false)
     @JsonBackReference("venta-items")
-    private Ventas venta;
+    private Venta venta;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idServicio", nullable = false)
-    private Servicios servicio;
+    private Servicio servicio;
 }

@@ -2,7 +2,7 @@ package pe.com.tiendaServicio.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.com.tiendaServicio.model.ItemVentas;
+import pe.com.tiendaServicio.model.ItemVenta;
 import pe.com.tiendaServicio.service.ItemVentaService;
 
 import java.util.List;
@@ -19,26 +19,26 @@ public class ItemVentaController {
     }
 
     @GetMapping
-    public List<ItemVentas> listar() {
+    public List<ItemVenta> listar() {
         return itemVentaService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemVentas> obtenerPorId(@PathVariable Integer id) {
-        Optional<ItemVentas> item = itemVentaService.obtenerPorId(id);
+    public ResponseEntity<ItemVenta> obtenerPorId(@PathVariable Integer id) {
+        Optional<ItemVenta> item = itemVentaService.obtenerPorId(id);
         return item.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<ItemVentas> crear(@RequestBody ItemVentas item) {
-        ItemVentas nuevoItem = itemVentaService.guardar(item);
+    public ResponseEntity<ItemVenta> crear(@RequestBody ItemVenta item) {
+        ItemVenta nuevoItem = itemVentaService.guardar(item);
         return ResponseEntity.ok(nuevoItem);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemVentas> actualizar(@PathVariable Integer id, @RequestBody ItemVentas itemActualizado) {
-        Optional<ItemVentas> itemExistente = itemVentaService.obtenerPorId(id);
+    public ResponseEntity<ItemVenta> actualizar(@PathVariable Integer id, @RequestBody ItemVenta itemActualizado) {
+        Optional<ItemVenta> itemExistente = itemVentaService.obtenerPorId(id);
         if (itemExistente.isPresent()) {
             itemActualizado.setIdItemVenta(id);  // CAMBIADO
             return ResponseEntity.ok(itemVentaService.guardar(itemActualizado));

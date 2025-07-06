@@ -2,7 +2,7 @@ package pe.com.tiendaServicio.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pe.com.tiendaServicio.model.ItemVentas;
+import pe.com.tiendaServicio.model.ItemVenta;
 import pe.com.tiendaServicio.repository.ItemVentasRepository;
 
 import java.util.Date;
@@ -18,15 +18,15 @@ public class ItemVentaService {
         this.itemVentaRepository = itemVentaRepository;
     }
 
-    public List<ItemVentas> listarTodos() {
+    public List<ItemVenta> listarTodos() {
         return itemVentaRepository.findAll();
     }
 
-    public Optional<ItemVentas> obtenerPorId(Integer id) {
+    public Optional<ItemVenta> obtenerPorId(Integer id) {
         return itemVentaRepository.findById(id);
     }
 
-    public ItemVentas guardar(ItemVentas itemVentas) {
+    public ItemVenta guardar(ItemVenta itemVentas) {
         return itemVentaRepository.save(itemVentas);
     }
 
@@ -38,20 +38,20 @@ public class ItemVentaService {
         }
     }
 
-    public List<ItemVentas> listarPorVentaId(Integer ventaId) {
+    public List<ItemVenta> listarPorVentaId(Integer ventaId) {
         return itemVentaRepository.findByVenta_IdVenta(ventaId);
     }
 
-    public List<ItemVentas> listarPorServicioId(Integer servicioId) {
+    public List<ItemVenta> listarPorServicioId(Integer servicioId) {
         return itemVentaRepository.findByServicio_IdServicio(servicioId);
     }
 
-    public List<ItemVentas> listarPorRangoFecha(Date inicio, Date fin) {
+    public List<ItemVenta> listarPorRangoFecha(Date inicio, Date fin) {
         return itemVentaRepository.findByFechaInicioBetween(inicio, fin);
     }
 
     @Transactional
-    public ItemVentas actualizar(Integer id, ItemVentas itemVentas) {
+    public ItemVenta actualizar(Integer id, ItemVenta itemVentas) {
         return itemVentaRepository.findById(id).map(itemExistente -> {
             itemExistente.setFechaInicio(itemVentas.getFechaInicio());
             itemExistente.setFechaFin(itemVentas.getFechaFin());
