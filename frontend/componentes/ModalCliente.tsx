@@ -19,10 +19,10 @@ type ClienteFormulario = {
 interface Props {
   cliente: Cliente | null;
   cerrar: () => void;
-  grabar: (cliente: Cliente | Omit<Cliente, "id">) => Promise<void>;
+  guardar: (cliente: Cliente | Omit<Cliente, "id">) => Promise<void>;
 }
 
-export default function ModalCliente({ cliente, cerrar, grabar }: Props) {
+export default function ModalCliente({ cliente, cerrar, guardar }: Props) {
   const [formulario, setFormulario] = useState<ClienteFormulario>({
     tipo_cliente: "",
     id_persona: 0,
@@ -60,7 +60,7 @@ export default function ModalCliente({ cliente, cerrar, grabar }: Props) {
   const enviarFormulario = async (e: React.FormEvent) => {
     e.preventDefault();
     const datos = cliente ? { ...formulario, id: cliente.id } : formulario;
-    await grabar(datos);
+    await guardar(datos);
     cerrar();
   };
 

@@ -6,10 +6,10 @@ import { useState, useEffect } from "react";
 interface Props {
   servicio: Servicio | null;
   cerrar: () => void;
-  grabar: (servicio: Omit<Servicio, "id"> | Servicio) => void;
+  guardar: (servicio: Omit<Servicio, "id"> | Servicio) => void;
 }
 
-export default function ModalServicio({ servicio, cerrar, grabar }: Props) {
+export default function ModalServicio({ servicio, cerrar, guardar}: Props) {
   const [formulario, setFormulario] = useState<Omit<Servicio, "id">>({
     nombre: "",
     descripcion: "",
@@ -32,7 +32,7 @@ export default function ModalServicio({ servicio, cerrar, grabar }: Props) {
   };
 
   const enviarFormulario = () => {
-    grabar(servicio ? { ...formulario, id: servicio.id } : formulario);
+    guardar(servicio ? { ...formulario, id: servicio.id } : formulario);
     cerrar();
   };
 

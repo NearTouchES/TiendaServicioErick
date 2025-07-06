@@ -62,7 +62,7 @@ export function useVentas() {
     }
   };
 
-  const borrarVenta = async (id: number) => {
+  const eliminarVenta = async (id: number) => {
     setCargando(true);
     try {
       await eliminarVenta(id);
@@ -81,7 +81,7 @@ export function useVentas() {
     cargando,
     registrarVenta,
     modificarVenta,
-    borrarVenta,
+    eliminarVenta,
     recargar: cargarVentas,
   };
 }

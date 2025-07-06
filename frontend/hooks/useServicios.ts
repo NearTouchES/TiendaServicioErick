@@ -66,7 +66,7 @@ export function useServicios() {
     }
   };
 
-  const borrarServicio = async (id: number) => {
+  const eliminarServicio = async (id: number) => {
     setCargando(true);
     try {
       await eliminarServicio(id);
@@ -89,7 +89,7 @@ export function useServicios() {
     setServicioSeleccionado,
     agregarServicio,
     actualizarServicio,
-    borrarServicio,
+    eliminarServicio,
     recargar: cargarServicios,
   };
 }

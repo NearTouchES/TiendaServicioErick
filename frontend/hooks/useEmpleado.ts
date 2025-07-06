@@ -32,7 +32,7 @@ export function useEmpleado() {
     cargarEmpleados();
   }, [cargarEmpleados]);
 
-  const grabarEmpleado = async (empleado: Empleado | Omit<Empleado, "id">) => {
+  const guardarEmpleado = async (empleado: Empleado | Omit<Empleado, "id">) => {
     setCargando(true);
     const esNuevo = !("id" in empleado);
 
@@ -54,14 +54,14 @@ export function useEmpleado() {
         "success"
       );
     } catch (error) {
-      console.error("Error al grabar empleado:", error);
-      mostrarMensaje("No se pudo grabar el empleado.", "error");
+      console.error("Error al guardar empleado:", error);
+      mostrarMensaje("No se pudo guardar el empleado.", "error");
     } finally {
       setCargando(false);
     }
   };
 
-  const borrarEmpleado = async (id: number) => {
+  const eliminarEmpleado = async (id: number) => {
     setCargando(true);
     try {
       await eliminarEmpleado(id);
@@ -78,8 +78,8 @@ export function useEmpleado() {
   return {
     empleados,
     cargando,
-    grabarEmpleado,
-    borrarEmpleado,
+    guardarEmpleado,
+    eliminarEmpleado,
     recargar: cargarEmpleados,
     setEmpleados,
   };

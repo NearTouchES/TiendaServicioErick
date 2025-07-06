@@ -62,7 +62,7 @@ export function useCliente() {
     }
   };
 
-  const borrarCliente = async (id: number) => {
+  const eliminarCliente = async (id: number) => {
     setCargando(true);
     try {
       await eliminarCliente(id);
@@ -81,7 +81,7 @@ export function useCliente() {
     cargando,
     error,
     registrarCliente,
-    borrarCliente,
+    eliminarCliente,
     recargarClientes: cargarClientes,
     setClientes,
   };

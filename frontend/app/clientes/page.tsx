@@ -7,12 +7,12 @@ import { useState } from "react";
 import { Cliente } from "@/modelo/cliente";
 
 export default function PaginaClientesApp() {
-  const { clientes, grabar, cargando } = useCliente();
+  const { clientes, guardar, cargando } = useCliente();
   const [mostrarModal, setMostrarModal] = useState(false);
   const [clienteSeleccionado, setClienteSeleccionado] = useState<Cliente | null>(null);
 
-  const grabarCliente = async (cliente: Cliente | Omit<Cliente, "id">) => {
-    await grabar(cliente);
+  const guardarCliente = async (cliente: Cliente | Omit<Cliente, "id">) => {
+    await guardar(cliente);
     setMostrarModal(false);
   };
 
@@ -33,7 +33,7 @@ export default function PaginaClientesApp() {
             <ModalCliente
               cliente={clienteSeleccionado}
               cerrar={() => setMostrarModal(false)}
-              grabar={grabarCliente}
+              guardar={guardarCliente}
             />
           )}
         </>

@@ -25,7 +25,7 @@ export default function PaginaServiciosApp() {
     await eliminarServicio(id);
   };
 
-  const grabarServicio = async (servicio: Servicio | Omit<Servicio, "id">) => {
+  const guardarServicio = async (servicio: Servicio | Omit<Servicio, "id">) => {
     if ("id" in servicio) {
       await actualizarServicio(servicio);
     } else {
@@ -47,7 +47,7 @@ export default function PaginaServiciosApp() {
         <ModalServicio
           servicio={servicioSeleccionado}
           cerrar={() => setMostrarServicioModal(false)}
-          grabar={grabarServicio}
+          guardar={guardarServicio}
         />
       )}
     </>

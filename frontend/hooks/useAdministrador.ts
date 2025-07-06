@@ -63,7 +63,7 @@ export function useAdministradores() {
     }
   };
 
-  const borrarAdministrador = async (id: number) => {
+  const eliminarAdministrador = async (id: number) => {
     setCargando(true);
     try {
       await eliminarAdministrador(id);
@@ -87,7 +87,7 @@ export function useAdministradores() {
     cargarAdministradores,
     crearAdministrador,
     editarAdministrador,
-    borrarAdministrador,
+    eliminarAdministrador,
     setAdministradores,
   };
 }

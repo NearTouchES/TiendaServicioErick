@@ -6,10 +6,10 @@ import { Empleado } from "@/modelo/empleado";
 interface Props {
   empleado: Empleado | null;
   cerrar: () => void;
-  grabar: (empleado: Empleado | Omit<Empleado, "id">) => Promise<void>;
+  guardar: (empleado: Empleado | Omit<Empleado, "id">) => Promise<void>;
 }
 
-export default function ModalEmpleado({ empleado, cerrar, grabar }: Props) {
+export default function ModalEmpleado({ empleado, cerrar, guardar }: Props) {
   const [formulario, setFormulario] = useState<Omit<Empleado, "id">>({
     puesto: "",
     salario: 0,
@@ -67,7 +67,7 @@ export default function ModalEmpleado({ empleado, cerrar, grabar }: Props) {
   const enviarFormulario = async (e: React.FormEvent) => {
     e.preventDefault();
     const datos = empleado ? { ...formulario, id: empleado.id } : formulario;
-    await grabar(datos);
+    await guardar(datos);
     cerrar();
   };
 

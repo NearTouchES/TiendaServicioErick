@@ -32,7 +32,7 @@ export function usePersonas() {
     cargarPersonas();
   }, [cargarPersonas]);
 
-  const grabarPersona = async (persona: Persona | Omit<Persona, "id">) => {
+  const guardarPersona = async (persona: Persona | Omit<Persona, "id">) => {
     setCargando(true);
     const esNueva = !("id" in persona);
 
@@ -54,14 +54,14 @@ export function usePersonas() {
         "success"
       );
     } catch (error) {
-      console.error("Error al grabar persona:", error);
+      console.error("Error al guardar persona:", error);
       mostrarMensaje("No se pudo guardar la persona.", "error");
     } finally {
       setCargando(false);
     }
   };
 
-  const borrarPersona = async (id: number) => {
+  const eliminarPersona = async (id: number) => {
     setCargando(true);
     try {
       await eliminarPersona(id);
@@ -78,8 +78,8 @@ export function usePersonas() {
   return {
     personas,
     cargando,
-    grabarPersona,
-    borrarPersona,
+    guardarPersona,
+    eliminarPersona,
     recargar: cargarPersonas,
     setPersonas,
   };
