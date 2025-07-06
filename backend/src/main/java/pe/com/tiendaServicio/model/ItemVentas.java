@@ -1,8 +1,11 @@
 package pe.com.tiendaServicio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.Data;
-
+// comentario
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "ItemVentas")
 @Data
