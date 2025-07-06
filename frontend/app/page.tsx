@@ -5,14 +5,14 @@ import PaginaServicios from "@/componentes/PaginaServicios";
 import ModalServicio from "@/componentes/ModalServicio";
 
 import { useServicios } from "@/hooks/useServicios";
-import { Servicio } from "@/modelo/servicios;
+import { Servicios } from "@/modelo/servicios";
 
 export default function TiendaServicioDashboard() {
   const [pagina, setPagina] = useState<"servicios">("servicios");
 
   const servicioHook = useServicios();
 
-  const guardarServicio = async (servicio: Servicio | Omit<Servicio, "idServicio">) => {
+  const guardarServicio = async (servicio: Servicios | Omit<Servicios, "idServicio">) => {
     await servicioHook.registrarServicio(servicio);
     servicioHook.setMostrarModalServicio(false);
   };
