@@ -8,51 +8,36 @@ import { useServicios } from "@/hooks/useServicios";
 import { Servicio } from "@/modelo/servicio";
 
 export default function TiendaServicioDashboard() {
-  const [pagina, setPagina] = useState<"clientes" | "empleados" | "servicios" | "ventas">("servicios");
+  const [pagina, setPagina] = useState<"servicios">("servicios");
 
-  // Hook de servicios
   const servicioHook = useServicios();
 
-  // Guardar servicio
   const guardarServicio = async (servicio: Servicio | Omit<Servicio, "idServicio">) => {
-    if ("idServicio" in servicio) {
-      await servicioHook.registrarServicio(servicio as Servicio);
-    } else {
-      await servicioHook.registrarServicio(servicio);
-    }
+    await servicioHook.registrarServicio(servicio);
     servicioHook.setMostrarModalServicio(false);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-800">
-      {/* NavBar */}
-      <nav className="bg-gray-800 p-4">
-        <div className="flex justify-around">
-          {/* Comentado para mostrar solo servicios por ahora */}
-          {/* {["clientes", "empleados", "servicios", "ventas"].map((p) => (
-            <button
-              key={p}
-              onClick={() => setPagina(p as any)}
-              className={`px-4 py-2 rounded-md text-white font-semibold ${
-                pagina === p ? "bg-blue-600" : "hover:bg-gray-600"
-              }`}
-            >
-              {p.charAt(0).toUpperCase() + p.slice(1)}
-            </button>
-          ))} */}
-
-          {/* Solo botón para servicios */}
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 text-gray-800">
+      {/* Encabezado */}
+      <header className="bg-gray-800 py-6 shadow-md">
+        <div className="container mx-auto px-6 flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-white">Panel de Servicios</h1>
           <button
-            onClick={() => setPagina("servicios")}
-            className="px-4 py-2 rounded-md text-white font-semibold bg-blue-600"
+            onClick={() => {
+              setPagina("servicios");
+              servicioHook.setServicioSeleccionado(null);
+              servicioHook.setMostrarModalServicio(true);
+            }}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg transition"
           >
-            Servicios
+            + Nuevo Servicio
           </button>
         </div>
-      </nav>
+      </header>
 
-      {/* Contenido según página actual */}
-      <main className="p-6">
+      {/* Contenido */}
+      <main className="container mx-auto px-6 py-10">
         {pagina === "servicios" && (
           <PaginaServicios
             servicios={servicioHook.servicios}
@@ -62,14 +47,9 @@ export default function TiendaServicioDashboard() {
             setServicioSeleccionado={servicioHook.setServicioSeleccionado}
           />
         )}
-
-        {/* Comentado para mostrar solo servicios */}
-        {/* {pagina === "clientes" && <PaginaClientes ... />} */}
-        {/* {pagina === "empleados" && <PaginaEmpleados ... />} */}
-        {/* {pagina === "ventas" && <PaginaVentas />} */}
       </main>
 
-      {/* Modales */}
+      {/* Modal de Servicio */}
       {servicioHook.mostrarModalServicio && (
         <ModalServicio
           servicio={servicioHook.servicioSeleccionado}
@@ -77,10 +57,6 @@ export default function TiendaServicioDashboard() {
           guardar={guardarServicio}
         />
       )}
-
-      {/* Comentados para mostrar solo servicios */}
-      {/* {clienteHook.mostrarModalCliente && <ModalCliente ... />} */}
-      {/* {empleadoHook.mostrarModalEmpleado && <ModalEmpleado ... />} */}
     </div>
   );
 }
