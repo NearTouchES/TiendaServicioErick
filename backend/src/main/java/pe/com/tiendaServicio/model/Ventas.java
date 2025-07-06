@@ -16,19 +16,19 @@ public class Ventas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "idVenta")
     private Integer idVenta;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fecha", nullable = false)
+    @Column(name = "fechaVenta", nullable = false)
     private Date fechaVenta;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_empleado", nullable = false)
+    @JoinColumn(name = "idEmpleado", nullable = false)
     private Empleado empleado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cliente", nullable = false)
+    @JoinColumn(name = "idCliente", nullable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

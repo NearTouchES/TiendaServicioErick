@@ -14,7 +14,7 @@ public class Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // nombre real en la base de datos
+    @Column(name = "idPersona")
     private Integer idPersona;
 
     @Column(name = "dni", length = 10, nullable = false)
@@ -29,7 +29,7 @@ public class Persona {
     @Column(name = "celular", length = 9)
     private String celular;
 
-    @Column(name = "correo_personal", length = 50, nullable = false)
+    @Column(name = "correoPersonal", length = 50, nullable = false)
     private String correoPersonal;
 
     @Column(name = "nacionalidad", length = 50)

@@ -13,17 +13,17 @@ public class Administrador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // nombre real en la BD
+    @Column(name = "idAdministrador") // nombre real en la BD
     private Integer idAdministrador;
 
     @Column(name = "salario", nullable = false, precision = 10, scale = 2)
     private BigDecimal salario;
 
-    @Column(name = "correo_institucional", length = 50, nullable = false)
+    @Column(name = "correoInstitucional", length = 50, nullable = false)
     private String correoInstitucional;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona", nullable = false)
+    @JoinColumn(name = "idPersona", nullable = false)
     @JsonIgnoreProperties({"empleados", "clientes", "administradores"})
     private Persona persona;
 }

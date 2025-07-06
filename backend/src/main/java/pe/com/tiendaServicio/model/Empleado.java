@@ -15,7 +15,7 @@ public class Empleado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // nombre real en la BD
+    @Column(name = "idEmpleado") // nombre real en la BD
     private Integer idEmpleado;
 
     @Column(name = "salario", nullable = false, precision = 10, scale = 2)
@@ -24,19 +24,19 @@ public class Empleado {
     @Column(name = "puesto", length = 50, nullable = false)
     private String puesto;
 
-    @Column(name = "correo_institucional", length = 50)
+    @Column(name = "correoInstitucional", length = 50)
     private String correoInstitucional;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fecha_inicio")
+    @Column(name = "fechaInicioEmpleado")
     private Date fechaInicioEmpleado;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fecha_fin")
+    @Column(name = "fechaFinEmpleado")
     private Date fechaFinEmpleado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona", nullable = false)
+    @JoinColumn(name = "idPersona", nullable = false)
     @JsonIgnoreProperties({"empleados", "clientes", "administradores"})
     private Persona persona;
 }
