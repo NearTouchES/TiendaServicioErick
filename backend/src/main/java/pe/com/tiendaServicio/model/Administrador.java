@@ -4,24 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "Administrador")
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "empleados", "clientes", "administradores"})
 public class Administrador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idAdministrador")
     private Integer idAdministrador;
 
-    @Column(name = "salario", nullable = false)
-    private Double salario;
+    @Column(nullable = false)
+    private Double Salario;
 
-    @Column(name = "correoInstitucional", nullable = false, length = 45)
-    private String correoInstitucional;
+    @Column(length = 45, nullable = false)
+    private String CorreoInstitucional;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idPersona", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "Persona_idPersona", nullable = false)
     private Persona persona;
 }
