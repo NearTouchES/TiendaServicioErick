@@ -9,7 +9,7 @@
 -- -----------------------------------------------------
 -- Schema base13
 -- -----------------------------------------------------
---CREATE SCHEMA IF NOT EXISTS `base13` DEFAULT CHARACTER SET utf8 ;
+-- CREATE SCHEMA IF NOT EXISTS `base13` DEFAULT CHARACTER SET utf8 ;
 -- Basic tables
 USE `base13` ;
 

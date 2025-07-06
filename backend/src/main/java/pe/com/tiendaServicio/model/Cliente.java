@@ -10,12 +10,13 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id") // <-- nombre real en la BD
     private Integer idCliente;
 
-    @Column(name = "tipoCliente", length = 45, nullable = false)
+    @Column(name = "tipo_cliente", length = 45, nullable = false) // <-- nombre real en la BD
     private String tipoCliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Persona_idPersona", nullable = false)
+    @JoinColumn(name = "id_persona", nullable = false) // <-- nombre real en la BD
     private Persona persona;
 }

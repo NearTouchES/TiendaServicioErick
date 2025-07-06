@@ -13,26 +13,27 @@ public class Empleado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id") // nombre real en la BD
     private Integer idEmpleado;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(name = "salario", nullable = false, precision = 10, scale = 2)
     private BigDecimal salario;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "puesto", length = 50, nullable = false)
     private String puesto;
 
-    @Column(length = 50)
+    @Column(name = "correo_institucional", length = 50)
     private String correoInstitucional;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fechaInicioEmpleado")
+    @Column(name = "fecha_inicio")
     private Date fechaInicioEmpleado;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fechaFinEmpleado")
+    @Column(name = "fecha_fin")
     private Date fechaFinEmpleado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Persona_idPersona", nullable = false)
+    @JoinColumn(name = "id_persona", nullable = false) // nombre real en la BD
     private Persona persona;
 }

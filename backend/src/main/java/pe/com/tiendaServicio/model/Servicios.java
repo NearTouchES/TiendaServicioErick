@@ -12,14 +12,15 @@ public class Servicios {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer idServicio;
 
-    @Column(length = 45, nullable = false)
+    @Column(name = "nombre", length = 45, nullable = false)
     private String nombreServicio;
 
-    @Column(length = 100)
+    @Column(name = "descripcion", length = 100)
     private String descripcion;
 
-    @Column(precision = 10, scale = 2, nullable = false)
+    @Column(name = "costo", precision = 10, scale = 2, nullable = false)
     private BigDecimal costoServicio;
 }

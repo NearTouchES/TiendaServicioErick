@@ -12,24 +12,25 @@ public class Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id") // nombre real en la base de datos
     private Integer idPersona;
 
-    @Column(length = 10, nullable = false)
+    @Column(name = "dni", length = 10, nullable = false)
     private String dni;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "nombres", length = 50, nullable = false)
     private String nombres;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "apellidos", length = 50, nullable = false)
     private String apellidos;
 
-    @Column(length = 9)
+    @Column(name = "celular", length = 9)
     private String celular;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "correo_personal", length = 50, nullable = false)
     private String correoPersonal;
 
-    @Column(length = 50)
+    @Column(name = "nacionalidad", length = 50)
     private String nacionalidad;
 
     // Relaciones con otras entidades

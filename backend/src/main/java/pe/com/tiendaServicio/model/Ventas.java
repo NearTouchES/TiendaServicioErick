@@ -15,10 +15,24 @@ public class Ventas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer idVenta;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha", nullable = false)
     private Date fechaVenta;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_empleado", nullable = false)
+    private Empleado empleado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cliente", nullable = false)
+    private Cliente cliente;
+
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference("venta-items")
+    private List<ItemVentas> items = new ArrayList<>();
 
     @Column(nullable = false)
     private double subtotal;
@@ -28,16 +42,4 @@ public class Ventas {
 
     @Column(nullable = false)
     private double total;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Empleado_idEmpleado", nullable = false)
-    private Empleado empleado;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Cliente_idCliente", nullable = false)
-    private Cliente cliente;
-
-    @OneToMany(mappedBy = "ventas", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference("venta-items")
-    private List<ItemVentas> items = new ArrayList<>();
 }

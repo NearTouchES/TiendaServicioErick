@@ -52,13 +52,9 @@ public class VentasService {
             ventaExistente.setFechaVenta(ventaActualizada.getFechaVenta());
             ventaExistente.setCliente(ventaActualizada.getCliente());
             ventaExistente.setEmpleado(ventaActualizada.getEmpleado());
-
-            // Limpia los items anteriores
             ventaExistente.getItems().clear();
-
-            // Reasigna items con referencia a la venta
             for (ItemVentas item : ventaActualizada.getItems()) {
-                item.setVentas(ventaExistente);
+                item.setVenta(ventaExistente);
                 ventaExistente.getItems().add(item);
             }
 
@@ -74,14 +70,12 @@ public class VentasService {
             throw new RuntimeException("No se puede eliminar. Venta no encontrada con ID " + id);
         }
     }
-
-    // Calcula subtotal, IGV y total a partir de los items de venta
     private void calcularTotales(Ventas venta) {
         BigDecimal subtotal = BigDecimal.ZERO;
 
         for (ItemVentas item : venta.getItems()) {
-            if (item.getServicios() != null && item.getServicios().getCostoServicio() != null) {
-                subtotal = subtotal.add(item.getServicios().getCostoServicio());
+            if (item.getServicio() != null && item.getServicio().getCostoServicio() != null) {
+                subtotal = subtotal.add(item.getServicio().getCostoServicio());
             }
         }
 

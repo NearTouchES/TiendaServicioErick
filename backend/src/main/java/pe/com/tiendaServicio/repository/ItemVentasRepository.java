@@ -9,7 +9,9 @@ import java.util.Date;
 
 @Repository
 public interface ItemVentasRepository extends JpaRepository<ItemVentas, Integer> {
-    List<ItemVentas> findByVentas_IdVenta(Integer idVenta);
-    List<ItemVentas> findByServicios_IdServicio(Integer idServicio);
+    List<ItemVentas> findByVenta_IdVenta(Integer ventaId);
+    List<ItemVentas> findByServicio_IdServicio(Integer servicioId);
     List<ItemVentas> findByFechaInicioBetween(Date inicio, Date fin);
 }
+
+
