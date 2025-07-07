@@ -1,8 +1,11 @@
-import { Persona } from "./persona";
-
 export interface Cliente {
-  id: number;
-  tipo_cliente: string;
-  id_persona: number;
-  persona: Persona; // no opcional si siempre viene del backend
+  idCliente: number;
+  tipoCliente: string;
+
+  // Datos del cliente directamente sin relación a persona
+  nombres: string;
+  apellidos: string;
+  correo: string;
+  telefono: string;
+  direccion: string;
 }

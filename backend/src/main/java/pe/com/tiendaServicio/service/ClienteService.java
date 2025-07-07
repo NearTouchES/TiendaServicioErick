@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Service
 public class ClienteService {
+
     private final ClienteRepository clienteRepository;
 
     public ClienteService(ClienteRepository clienteRepository) {
@@ -31,7 +32,11 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
-    public List<Cliente> listarPorPersonaId(Integer personaId) {
-        return clienteRepository.findByPersonaIdPersona(personaId);
+    public boolean existePorId(Integer id) {
+        return clienteRepository.existsById(id);
+    }
+
+    public boolean correoExiste(String correo) {
+        return clienteRepository.existsByCorreo(correo);
     }
 }

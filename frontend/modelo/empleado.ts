@@ -1,12 +1,10 @@
-import { Persona } from "./persona";
-
 export interface Empleado {
-  id: number;
+  idEmpleado: number;
+  nombres: string;
+  apellidos: string;
+  correoInstitucional: string;
   puesto: string;
   salario: number;
-  correo_institucional?: string;
-  fecha_inicio?: string; // formato ISO: "2025-07-06T00:00:00"
-  fecha_fin?: string;
-  id_persona: number;
-  persona: Persona; // viene del backend si hay join
+  fechaInicioEmpleado: string; // ISO string
+  fechaFinEmpleado?: string;   // puede estar en null
 }

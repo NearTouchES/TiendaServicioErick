@@ -1,64 +1,130 @@
 "use client";
 
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { Cliente } from "@/modelo/cliente";
+import { Servicio } from "@/modelo/servicios";
+import { SolicitudServicio } from "@/modelo/solicitud";
+
+import PaginaCliente from "@/componentes/PaginaCliente";
 import PaginaServicios from "@/componentes/PaginaServicios";
+import PaginaSolicitudes from "@/componentes/PaginaSolicitudes";
+import ModalCliente from "@/componentes/ModalCliente";
 import ModalServicio from "@/componentes/ModalServicio";
+import NavBar from "@/componentes/NavBar";
 
-import { useServicios } from "@/hooks/useServicios";
-import { Servicios } from "@/modelo/servicios";
+import {
+  getClientes,
+  crearCliente,
+  actualizarCliente,
+  eliminarCliente,
+} from "@/lib/api/cliente";
 
-export default function TiendaServicioDashboard() {
-  // Solo manejamos la página de "servicios"
-  const [pagina, setPagina] = useState<"servicios">("servicios");
+import {
+  getServicios,
+  crearServicio,
+  actualizarServicio,
+  eliminarServicio,
+} from "@/lib/api/servicios";
 
-  const serviciosHook = useServicios();
+import { getSolicitudes } from "@/lib/api/solicitudes";
 
-  // Guardar (crear o actualizar) un servicio
-  const guardarServicios = async (servicio: Servicios | Omit<Servicios, "idServicio">) => {
-    await serviciosHook.registrarServicio(servicio);
-    serviciosHook.setMostrarModalServicio(false);
+export default function Page() {
+  const [vista, setVista] = useState("clientes");
+
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [mostrarModalCliente, setMostrarModalCliente] = useState(false);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<Cliente | null>(null);
+
+  const [servicios, setServicios] = useState<Servicio[]>([]);
+  const [mostrarModalServicio, setMostrarModalServicio] = useState(false);
+  const [servicioSeleccionado, setServicioSeleccionado] = useState<Servicio | null>(null);
+
+  const [solicitudes, setSolicitudes] = useState<SolicitudServicio[]>([]);
+
+  useEffect(() => {
+    getClientes().then(setClientes).catch(console.error);
+    getServicios().then(setServicios).catch(console.error);
+    getSolicitudes().then(setSolicitudes).catch(console.error);
+  }, []);
+
+  const guardarCliente = async (cliente: Cliente) => {
+    try {
+      if (cliente.idCliente) {
+        const actualizado = await actualizarCliente(cliente);
+        setClientes((prev) => prev.map((c) => (c.idCliente === actualizado.idCliente ? actualizado : c)));
+      } else {
+        const nuevo = await crearCliente(cliente);
+        setClientes((prev) => [...prev, nuevo]);
+      }
+    } catch (error) {
+      console.error("Error al guardar cliente:", error);
+    }
+  };
+
+  const guardarServicio = async (servicio: Servicio) => {
+    try {
+      if (servicio.idServicio) {
+        const actualizado = await actualizarServicio(servicio);
+        setServicios((prev) => prev.map((s) => (s.idServicio === actualizado.idServicio ? actualizado : s)));
+      } else {
+        const nuevo = await crearServicio(servicio);
+        setServicios((prev) => [...prev, nuevo]);
+      }
+    } catch (error) {
+      console.error("Error al guardar servicio:", error);
+    }
+  };
+
+  const eliminarServicioHandler = async (id: number) => {
+    try {
+      await eliminarServicio(id);
+      setServicios((prev) => prev.filter((s) => s.idServicio !== id));
+    } catch (error) {
+      console.error("Error al eliminar servicio:", error);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 text-gray-800">
-      {/* Header */}
-      <header className="bg-gray-800 py-6 shadow-md">
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-white">Panel de Servicios</h1>
-          <button
-            onClick={() => {
-              setPagina("servicios");
-              serviciosHook.setServicioSeleccionado(null);
-              serviciosHook.setMostrarModalServicio(true);
-            }}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg transition"
-          >
-            + Nuevo Servicio
-          </button>
-        </div>
-      </header>
+    <main className="min-h-screen bg-gray-50">
+      <NavBar setVista={setVista} />
 
-      {/* Contenido */}
-      <main className="container mx-auto px-6 py-10">
-        {pagina === "servicios" && (
-          <PaginaServicios
-            servicios={serviciosHook.servicios}
-            agregarAlCarrito={() => {}}
-            eliminarServicio={serviciosHook.eliminarServicio}
-            setMostrarModalServicio={serviciosHook.setMostrarModalServicio}
-            setServicioSeleccionado={serviciosHook.setServicioSeleccionado}
+      {vista === "clientes" && (
+        <>
+          <PaginaCliente
+            clientes={clientes}
+            setMostrarModalCliente={setMostrarModalCliente}
+            setClienteSeleccionado={setClienteSeleccionado}
           />
-        )}
-      </main>
-
-      {/* Modal de Servicios */}
-      {serviciosHook.mostrarModalServicio && (
-        <ModalServicio
-          servicio={serviciosHook.servicioSeleccionado}
-          cerrar={() => serviciosHook.setMostrarModalServicio(false)}
-          guardar={guardarServicios}
-        />
+          {mostrarModalCliente && (
+            <ModalCliente
+              cliente={clienteSeleccionado}
+              onGuardar={guardarCliente}
+              onClose={() => setMostrarModalCliente(false)}
+            />
+          )}
+        </>
       )}
-    </div>
+
+      {vista === "servicios" && (
+        <>
+          <PaginaServicios
+            servicios={servicios}
+            agregarAlCarrito={() => {}}
+            eliminarServicio={eliminarServicioHandler}
+            setMostrarModalServicio={setMostrarModalServicio}
+            setServicioSeleccionado={setServicioSeleccionado}
+          />
+          {mostrarModalServicio && (
+            <ModalServicio
+              servicio={servicioSeleccionado}
+              onGuardar={guardarServicio}
+              onClose={() => setMostrarModalServicio(false)}
+            />
+          )}
+        </>
+      )}
+
+      {vista === "solicitudes" && <PaginaSolicitudes solicitudes={solicitudes} />}
+    </main>
   );
 }

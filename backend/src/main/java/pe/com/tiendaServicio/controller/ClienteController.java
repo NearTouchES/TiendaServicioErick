@@ -5,11 +5,12 @@ import org.springframework.web.bind.annotation.*;
 import pe.com.tiendaServicio.model.Cliente;
 import pe.com.tiendaServicio.service.ClienteService;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/cliente") // ✅ singular
+@RequestMapping("/api/clientes")
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -25,31 +26,32 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> obtenerPorId(@PathVariable Integer id) {
-        Optional<Cliente> cliente = clienteService.obtenerPorId(id);
-        return cliente.map(ResponseEntity::ok)
+        return clienteService.obtenerPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente) {
-        Cliente nuevoCliente = clienteService.guardar(cliente);
-        return ResponseEntity.ok(nuevoCliente);
+    public ResponseEntity<Cliente> crear(@Valid @RequestBody Cliente cliente) {
+        Cliente nuevo = clienteService.guardar(cliente);
+        return ResponseEntity.ok(nuevo);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> actualizar(@PathVariable Integer id, @RequestBody Cliente clienteActualizado) {
-        Optional<Cliente> clienteExistente = clienteService.obtenerPorId(id);
-        if (clienteExistente.isPresent()) {
-            clienteActualizado.setIdCliente(id);
-            return ResponseEntity.ok(clienteService.guardar(clienteActualizado));
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Cliente> actualizar(@PathVariable Integer id, @Valid @RequestBody Cliente cliente) {
+        if (clienteService.existePorId(id)) {
+            cliente.setIdCliente(id);
+            return ResponseEntity.ok(clienteService.guardar(cliente));
         }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
-        clienteService.eliminar(id);
-        return ResponseEntity.noContent().build();
+        if (clienteService.existePorId(id)) {
+            clienteService.eliminar(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

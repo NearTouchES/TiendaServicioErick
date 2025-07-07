@@ -1,22 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Puedes agregar estilos globales personalizados aquí si deseas */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  background-color: #f5f5f5;
-}
-
-button {
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #0070f3;
-  color: white;
-  transition: background-color 0.2s ease;
-}
-
-button:hover {
-  background-color: #005bb5;
+  font-family: system-ui, sans-serif;
 }

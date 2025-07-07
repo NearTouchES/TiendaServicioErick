@@ -1,15 +1,15 @@
 import "./globals.css";
 import { ReactNode } from "react";
 
+export const metadata = {
+  title: "Gestión de Servicios",
+  description: "Sistema de gestión de clientes, servicios y solicitudes",
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
-      <head />
-      <body>
-        <main style={{ padding: "20px", maxWidth: "900px", margin: "0 auto" }}>
-          {children}
-        </main>
-      </body>
+      <body className="bg-gray-50 text-gray-900">{children}</body>
     </html>
   );
 }

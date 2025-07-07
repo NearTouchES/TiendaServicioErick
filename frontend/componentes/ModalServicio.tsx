@@ -1,123 +1,55 @@
 "use client";
 
-import { Servicios } from "@/modelo/servicios";
-import { useState, useEffect } from "react";
+import { Servicio } from "@/modelo/servicios";
+import { useState } from "react";
 
 interface Props {
-  servicio: Servicios | null;
-  cerrar: () => void;
-  guardar: (servicio: Servicios | Omit<Servicios, "idServicio">) => void;
+  servicio?: Servicio | null;
+  onGuardar: (servicio: Servicio) => void;
+  onClose: () => void;
 }
 
-const modalidades = ["Presencial", "Virtual", "Mixto"];
-
-export default function ModalServicio({ servicio, cerrar, guardar }: Props) {
-  const [formulario, setFormulario] = useState<Omit<Servicios, "idServicio">>({
-    nombreServicio: "",
-    descripcion: "",
-    costoServicio: 0,
-    especialidad: "",
-    duracion: 30,
-    modalidad: "Presencial",
-  });
-
-  useEffect(() => {
-    if (servicio) {
-      const { idServicio, ...resto } = servicio;
-      setFormulario(resto);
+export default function ModalServicio({ servicio, onGuardar, onClose }: Props) {
+  const [formData, setFormData] = useState<Servicio>(
+    servicio ?? {
+      idServicio: 0,
+      nombreServicio: "",
+      descripcion: "",
+      costoServicio: 0,
+      especialidad: "",
+      duracion: 0,
+      modalidad: "",
     }
-  }, [servicio]);
+  );
 
-  const manejarCambio = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormulario((prev) => ({
-      ...prev,
+    setFormData({
+      ...formData,
       [name]: name === "costoServicio" || name === "duracion" ? Number(value) : value,
-    }));
+    });
   };
 
-  const enviarFormulario = () => {
-    guardar(servicio ? { ...formulario, idServicio: servicio.idServicio } : formulario);
-    cerrar();
+  const handleSubmit = () => {
+    onGuardar(formData);
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">
-          {servicio ? "Editar Servicio" : "Nuevo Servicio"}
-        </h2>
-
-        <input
-          type="text"
-          name="nombreServicio"
-          value={formulario.nombreServicio}
-          onChange={manejarCambio}
-          placeholder="Nombre del servicio"
-          className="w-full mb-3 p-2 border rounded"
-        />
-
-        <textarea
-          name="descripcion"
-          value={formulario.descripcion}
-          onChange={manejarCambio}
-          placeholder="Descripción"
-          className="w-full mb-3 p-2 border rounded"
-        />
-
-        <input
-          type="number"
-          name="costoServicio"
-          value={formulario.costoServicio}
-          onChange={manejarCambio}
-          placeholder="Costo"
-          className="w-full mb-3 p-2 border rounded"
-        />
-
-        <input
-          type="text"
-          name="especialidad"
-          value={formulario.especialidad}
-          onChange={manejarCambio}
-          placeholder="Especialidad (ej: Nutrición, Psicología)"
-          className="w-full mb-3 p-2 border rounded"
-        />
-
-        <input
-          type="number"
-          name="duracion"
-          value={formulario.duracion}
-          onChange={manejarCambio}
-          placeholder="Duración (minutos)"
-          className="w-full mb-3 p-2 border rounded"
-          min={1}
-        />
-
-        <select
-          name="modalidad"
-          value={formulario.modalidad}
-          onChange={manejarCambio}
-          className="w-full mb-4 p-2 border rounded"
-        >
-          {modalidades.map((mod) => (
-            <option key={mod} value={mod}>
-              {mod}
-            </option>
-          ))}
-        </select>
-
-        <div className="flex justify-end space-x-2">
-          <button onClick={cerrar} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
-            Cancelar
-          </button>
-          <button
-            onClick={enviarFormulario}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Guardar
-          </button>
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-xl font-bold mb-4">Servicio</h2>
+        <div className="space-y-3">
+          <input name="nombreServicio" value={formData.nombreServicio} onChange={handleChange} placeholder="Nombre" className="w-full border p-2 rounded" />
+          <input name="descripcion" value={formData.descripcion} onChange={handleChange} placeholder="Descripción" className="w-full border p-2 rounded" />
+          <input name="especialidad" value={formData.especialidad} onChange={handleChange} placeholder="Especialidad" className="w-full border p-2 rounded" />
+          <input name="modalidad" value={formData.modalidad} onChange={handleChange} placeholder="Modalidad" className="w-full border p-2 rounded" />
+          <input type="number" name="duracion" value={formData.duracion} onChange={handleChange} placeholder="Duración (min)" className="w-full border p-2 rounded" />
+          <input type="number" step="0.01" name="costoServicio" value={formData.costoServicio} onChange={handleChange} placeholder="Costo S/." className="w-full border p-2 rounded" />
+        </div>
+        <div className="mt-4 flex justify-end gap-2">
+          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
+          <button onClick={handleSubmit} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Guardar</button>
         </div>
       </div>
     </div>

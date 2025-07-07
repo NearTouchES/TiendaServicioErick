@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Service
 public class EmpleadoService {
+
     private final EmpleadoRepository empleadoRepository;
 
     public EmpleadoService(EmpleadoRepository empleadoRepository) {
@@ -31,7 +32,11 @@ public class EmpleadoService {
         empleadoRepository.deleteById(id);
     }
 
-    public List<Empleado> listarPorPersonaId(Integer personaId) {
-        return empleadoRepository.findByPersonaIdPersona(personaId);
+    public boolean existePorId(Integer id) {
+        return empleadoRepository.existsById(id);
+    }
+
+    public boolean correoExiste(String correoInstitucional) {
+        return empleadoRepository.existsByCorreoInstitucional(correoInstitucional);
     }
 }

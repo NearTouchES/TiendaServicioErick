@@ -1,7 +1,7 @@
 package pe.com.tiendaServicio.service;
 
 import org.springframework.stereotype.Service;
-import pe.com.tiendaServicio.model.Servicios;
+import pe.com.tiendaServicio.model.Servicio;
 import pe.com.tiendaServicio.repository.ServicioRepository;
 
 import java.util.List;
@@ -30,5 +30,9 @@ public class ServicioService {
 
     public void eliminar(Integer id) {
         servicioRepository.deleteById(id);
+    }
+
+    public boolean existePorId(Integer id) {
+        return servicioRepository.existsById(id);
     }
 }

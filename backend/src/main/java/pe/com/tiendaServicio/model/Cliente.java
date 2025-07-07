@@ -1,10 +1,13 @@
 package pe.com.tiendaServicio.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
-@Table(name = "Cliente") // ✅ Nombre de tabla en singular
+@Table(name = "cliente")
 @Data
 public class Cliente {
 
@@ -12,9 +15,20 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
 
-    private String tipoCliente;
+    @NotBlank
+    private String nombre;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Persona_idPersona", nullable = false) // ✅ Referencia en singular
-    private Persona persona;
+    @NotBlank
+    private String apellido;
+
+    @Email
+    @NotBlank
+    @Column(unique = true)
+    private String correo;
+
+    @NotBlank
+    private String telefono;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<SolicitudServicio> solicitudes;
 }

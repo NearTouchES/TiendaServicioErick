@@ -1,92 +1,50 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { Servicios } from "@/modelo/servicios";
-import { useMensaje } from "@/hooks/useMensaje";
-import {
-  getServicios,
-  crearServicio,
-  actualizarServicio as apiActualizarServicio,
-  eliminarServicio as apiEliminarServicio,
-} from "@/lib/api/servicios";
+import { useEffect, useState } from "react";
+import { Servicio } from "@/modelo/servicios";
 
-export function useServicios() {
-  const [servicios, setServicios] = useState<Servicios[]>([]);
-  const [servicioSeleccionado, setServicioSeleccionado] = useState<Servicios | null>(null);
-  const [mostrarModalServicio, setMostrarModalServicio] = useState<boolean>(false);
-  const [cargando, setCargando] = useState<boolean>(false);
-  const { mostrarMensaje } = useMensaje();
-
-  const cargarServicios = useCallback(async () => {
-    setCargando(true);
-    try {
-      const data = await getServicios();
-      setServicios(data);
-    } catch (error) {
-      console.error("Error al cargar servicios:", error);
-      mostrarMensaje("No se pudieron cargar los servicios.", "error");
-    } finally {
-      setCargando(false);
-    }
-  }, [mostrarMensaje]);
+export default function useServicios() {
+  const [servicios, setServicios] = useState<Servicio[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    cargarServicios();
-  }, [cargarServicios]);
+    fetch("/api/servicios")
+      .then((res) => res.json())
+      .then(setServicios)
+      .finally(() => setLoading(false));
+  }, []);
 
-  const registrarServicio = async (servicio: Servicios | Omit<Servicios, "idServicio">) => {
-    setCargando(true);
-    const esNuevo = !("idServicio" in servicio);
-    try {
-      const resultado = esNuevo
-        ? await crearServicio(servicio as Omit<Servicios, "idServicio">)
-        : await apiActualizarServicio(servicio as Servicios);
+  const guardarServicio = async (servicio: Servicio) => {
+    const metodo = servicio.idServicio ? "PUT" : "POST";
+    const url = servicio.idServicio
+      ? `/api/servicios/${servicio.idServicio}`
+      : `/api/servicios`;
 
+    const res = await fetch(url, {
+      method: metodo,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(servicio),
+    });
+
+    const data = await res.json();
+    if (!servicio.idServicio) {
+      setServicios((prev) => [...prev, data]);
+    } else {
       setServicios((prev) =>
-        esNuevo
-          ? [...prev, resultado]
-          : prev.map((s) => (s.idServicio === resultado.idServicio ? resultado : s))
+        prev.map((s) => (s.idServicio === data.idServicio ? data : s))
       );
-
-      mostrarMensaje(
-        esNuevo ? "Servicio agregado correctamente." : "Servicio actualizado correctamente.",
-        "success"
-      );
-
-      setMostrarModalServicio(false);
-      setServicioSeleccionado(null);
-    } catch (error) {
-      console.error("Error al guardar servicio:", error);
-      mostrarMensaje("No se pudo guardar el servicio.", "error");
-    } finally {
-      setCargando(false);
     }
   };
 
-  const eliminarServicioById = async (idServicio: number) => {
-    setCargando(true);
-    try {
-      await apiEliminarServicio(idServicio);
-      setServicios((prev) => prev.filter((s) => s.idServicio !== idServicio));
-      mostrarMensaje("Servicio eliminado correctamente.", "success");
-    } catch (error) {
-      console.error("Error al eliminar servicio:", error);
-      mostrarMensaje("No se pudo eliminar el servicio.", "error");
-    } finally {
-      setCargando(false);
-    }
+  const eliminarServicio = async (id: number) => {
+    await fetch(`/api/servicios/${id}`, { method: "DELETE" });
+    setServicios((prev) => prev.filter((s) => s.idServicio !== id));
   };
 
   return {
     servicios,
-    servicioSeleccionado,
-    mostrarModalServicio,
-    setServicioSeleccionado,
-    setMostrarModalServicio,
-    registrarServicio,
-    eliminarServicio: eliminarServicioById,
-    recargar: cargarServicios,
-    cargando,
-    setServicios,
+    guardarServicio,
+    eliminarServicio,
+    loading,
   };
 }

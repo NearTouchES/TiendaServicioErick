@@ -1,11 +1,13 @@
 package pe.com.tiendaServicio.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Empleado") // ✅ Tabla en singular
+@Table(name = "empleado")
 @Data
 public class Empleado {
 
@@ -13,13 +15,23 @@ public class Empleado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEmpleado;
 
-    private Double salario;
-    private String puesto;
+    @NotBlank
+    private String nombre;
+
+    @NotBlank
+    private String apellido;
+
+    @Email
+    @NotBlank
+    @Column(unique = true)
     private String correoInstitucional;
+
+    @NotBlank
+    private String puesto;
+
+    @Positive
+    private Double salario;
+
     private LocalDateTime fechaInicioEmpleado;
     private LocalDateTime fechaFinEmpleado;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Persona_idPersona", nullable = false) // ✅ Relación en singular
-    private Persona persona;
 }
