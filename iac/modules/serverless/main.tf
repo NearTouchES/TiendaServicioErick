@@ -1,11 +1,11 @@
 data "archive_file" "archivo_crear_orden_lambda" {
   type        = "zip"
-  source_dir  = "${path.root}/../serverless/tiendaServicio/packages/funciones/crear-orden/build"
+  source_dir  = "${path.root}/../serverless/tiendaServicio/packages/funciones/crear-orden2/build"
   output_path = "${path.root}/data/crear_orden_lambda.zip"
 }
 
 resource "aws_lambda_function" "crear_orden" {
-  function_name    = "crear-orden"
+  function_name    = "crear-orden2"
   handler          = "index.handler"  # Asegúrate que index.js tenga `exports.handler = ...`
   runtime          = var.entorno_ejecucion  # Ej: "nodejs18.x"
   role             = var.rol_lambda_arn
