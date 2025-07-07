@@ -79,7 +79,7 @@ data "aws_security_group" "grupo_seguridad_por_defecto" {
 
 # Load Balancer
 resource "aws_lb" "tiendaservicio_load_balancer" {
-  name               = "tiendaservicio-alb"
+  name               = "tiendaservicio-alb2"
   internal           = false
   load_balancer_type = "application"
   subnets            = data.aws_subnets.sub_redes_por_defecto.ids
@@ -87,7 +87,7 @@ resource "aws_lb" "tiendaservicio_load_balancer" {
 }
 
 resource "aws_lb_target_group" "tg_tiendaservicio" {
-  name        = "tg-tiendaservicio"
+  name        = "tg-tiendaservicio2"
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.vpc_por_defecto.id

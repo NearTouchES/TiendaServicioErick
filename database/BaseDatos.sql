@@ -1,125 +1,43 @@
--- SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
--- SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
--- SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+DROP DATABASE IF EXISTS base13;
+CREATE DATABASE base13;
+-- Usa la nueva base de datos
+USE base13;
 
--- -----------------------------------------------------
--- Schema base13
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema base13
--- -----------------------------------------------------
--- CREATE SCHEMA IF NOT EXISTS `base13` DEFAULT CHARACTER SET utf8 ;
--- Basic tables
-USE `base13` ;
-
--- -----------------------------------------------------
--- Table `base13`.`Persona`
--- -----------------------------------------------------
-CREATE TABLE Persona (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    dni CHAR(10) NOT NULL,
-    nombres VARCHAR(50) NOT NULL,
-    apellidos VARCHAR(50) NOT NULL,
-    celular CHAR(9),
-    correo_personal VARCHAR(50) NOT NULL,
-    nacionalidad VARCHAR(50)
+CREATE TABLE cliente (
+  id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(255) NOT NULL,
+  apellido VARCHAR(255) NOT NULL,
+  correo VARCHAR(255) NOT NULL UNIQUE,
+  telefono VARCHAR(255) NOT NULL
 );
 
--- -----------------------------------------------------
--- Table `base13`.`Empleado`
--- -----------------------------------------------------
-CREATE TABLE Empleado (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    salario DECIMAL(10, 2) NOT NULL,
-    puesto VARCHAR(50) NOT NULL,
-    correo_institucional VARCHAR(50),
-    fecha_inicio DATETIME,
-    fecha_fin DATETIME,
-    id_persona INT NOT NULL
+CREATE TABLE empleado (
+  id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(255) NOT NULL,
+  apellido VARCHAR(255) NOT NULL,
+  correo_institucional VARCHAR(255) NOT NULL UNIQUE,
+  puesto VARCHAR(255) NOT NULL,
+  salario DOUBLE PRECISION CHECK (salario > 0),
+  fecha_inicio_empleado DATETIME,
+  fecha_fin_empleado DATETIME
 );
 
-ALTER TABLE Empleado
-    ADD CONSTRAINT FK_Empleado_Persona
-    FOREIGN KEY (id_persona) REFERENCES Persona(id);
-
-
--- -----------------------------------------------------
--- Table `base13`.`Cliente`
--- -----------------------------------------------------
-CREATE TABLE Cliente (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    tipo_cliente VARCHAR(45) NOT NULL,
-    id_persona INT NOT NULL
+CREATE TABLE servicio (
+  id_servicio INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_servicio VARCHAR(100) NOT NULL,
+  descripcion VARCHAR(500),
+  costo_servicio DECIMAL(10, 2) NOT NULL CHECK (costo_servicio >= 0),
+  especialidad VARCHAR(100),
+  duracion INT,
+  modalidad VARCHAR(20)
 );
 
-ALTER TABLE Cliente
-    ADD CONSTRAINT FK_Cliente_Persona
-    FOREIGN KEY (id_persona) REFERENCES Persona(id);
-
--- -----------------------------------------------------
--- Table `base13`.`Administrador`
--- -----------------------------------------------------
-CREATE TABLE Administrador (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    salario DECIMAL(10, 2) NOT NULL,
-    correo_institucional VARCHAR(50) NOT NULL,
-    id_persona INT NOT NULL
+CREATE TABLE solicitud_servicio (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  cliente_id INT NOT NULL,
+  servicio_id INT NOT NULL,
+  fecha_solicitud DATETIME,
+  estado VARCHAR(20),
+  CONSTRAINT fk_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id_cliente) ON DELETE CASCADE,
+  CONSTRAINT fk_servicio FOREIGN KEY (servicio_id) REFERENCES servicio(id_servicio) ON DELETE CASCADE
 );
-
-ALTER TABLE Administrador
-    ADD CONSTRAINT FK_Administrador_Persona
-    FOREIGN KEY (id_persona) REFERENCES Persona(id);
-
--- -----------------------------------------------------
--- Table `base13`.`Ventas`
--- -----------------------------------------------------
-CREATE TABLE Venta (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    id_cliente INT NOT NULL,
-    id_empleado INT NOT NULL,
-    fecha DATETIME NOT NULL
-);
-
-ALTER TABLE Venta
-    ADD CONSTRAINT FK_Venta_Cliente
-    FOREIGN KEY (id_cliente) REFERENCES Cliente(id);
-
-ALTER TABLE Venta
-    ADD CONSTRAINT FK_Venta_Empleado
-    FOREIGN KEY (id_empleado) REFERENCES Empleado(id);
-
--- -----------------------------------------------------
--- Table `base13`.`Servicio`
--- -----------------------------------------------------
-CREATE TABLE Servicio (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(45),
-    descripcion VARCHAR(100),
-    costo DECIMAL(10, 2)
-);
-
-
--- -----------------------------------------------------
--- Table `base13`.`ItemVentas`
--- -----------------------------------------------------
-CREATE TABLE ItemVenta (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    id_venta INT NOT NULL,
-    id_servicio INT NOT NULL,
-    fecha_inicio DATE NOT NULL,
-    fecha_fin DATE,
-    subtotal DECIMAL(10, 2) NOT NULL
-);
-
-ALTER TABLE ItemVenta
-    ADD CONSTRAINT FK_ItemVenta_Venta
-    FOREIGN KEY (id_venta) REFERENCES Venta(id);
-
-ALTER TABLE ItemVenta
-    ADD CONSTRAINT FK_ItemVenta_Servicio
-    FOREIGN KEY (id_servicio) REFERENCES Servicio(id);
-
--- SET SQL_MODE=@OLD_SQL_MODE;
--- SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
--- SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
