@@ -41,17 +41,21 @@ export default function Page() {
 
   const [solicitudes, setSolicitudes] = useState<SolicitudServicio[]>([]);
 
+  // Carga de datos inicial
   useEffect(() => {
     getClientes().then(setClientes).catch(console.error);
     getServicios().then(setServicios).catch(console.error);
     getSolicitudes().then(setSolicitudes).catch(console.error);
   }, []);
 
+  // CRUD Clientes
   const guardarCliente = async (cliente: Cliente) => {
     try {
       if (cliente.idCliente) {
         const actualizado = await actualizarCliente(cliente);
-        setClientes((prev) => prev.map((c) => (c.idCliente === actualizado.idCliente ? actualizado : c)));
+        setClientes((prev) =>
+          prev.map((c) => (c.idCliente === actualizado.idCliente ? actualizado : c))
+        );
       } else {
         const nuevo = await crearCliente(cliente);
         setClientes((prev) => [...prev, nuevo]);
@@ -61,11 +65,23 @@ export default function Page() {
     }
   };
 
+  const eliminarClienteHandler = async (id: number) => {
+    try {
+      await eliminarCliente(id);
+      setClientes((prev) => prev.filter((c) => c.idCliente !== id));
+    } catch (error) {
+      console.error("Error al eliminar cliente:", error);
+    }
+  };
+
+  // CRUD Servicios
   const guardarServicio = async (servicio: Servicio) => {
     try {
       if (servicio.idServicio) {
         const actualizado = await actualizarServicio(servicio);
-        setServicios((prev) => prev.map((s) => (s.idServicio === actualizado.idServicio ? actualizado : s)));
+        setServicios((prev) =>
+          prev.map((s) => (s.idServicio === actualizado.idServicio ? actualizado : s))
+        );
       } else {
         const nuevo = await crearServicio(servicio);
         setServicios((prev) => [...prev, nuevo]);
@@ -84,6 +100,7 @@ export default function Page() {
     }
   };
 
+  // Render
   return (
     <main className="min-h-screen bg-gray-50">
       <NavBar setVista={setVista} />
@@ -94,6 +111,7 @@ export default function Page() {
             clientes={clientes}
             setMostrarModalCliente={setMostrarModalCliente}
             setClienteSeleccionado={setClienteSeleccionado}
+            eliminarCliente={eliminarClienteHandler}
           />
           {mostrarModalCliente && (
             <ModalCliente
@@ -124,7 +142,9 @@ export default function Page() {
         </>
       )}
 
-      {vista === "solicitudes" && <PaginaSolicitudes solicitudes={solicitudes} />}
+      {vista === "solicitudes" && (
+        <PaginaSolicitudes solicitudes={solicitudes} />
+      )}
     </main>
   );
 }

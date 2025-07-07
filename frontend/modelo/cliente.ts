@@ -1,11 +1,9 @@
 export interface Cliente {
-  idCliente: number;
-  tipoCliente: string;
-
-  // Datos del cliente directamente sin relación a persona
+  idCliente?: number;
   nombres: string;
   apellidos: string;
   correo: string;
   telefono: string;
+  tipoCliente: string;
   direccion: string;
 }
